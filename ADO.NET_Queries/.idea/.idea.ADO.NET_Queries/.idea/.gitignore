@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.ADO.NET_Queries.iml
+/contentModel.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../../../:\Users\naris\Documents\Work\TECHHIRE\REPOSITORY\C-Sharp-DDWA-Full-Stack-Web-Apps\ADO.NET_Queries\.idea\.idea.ADO.NET_Queries\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
