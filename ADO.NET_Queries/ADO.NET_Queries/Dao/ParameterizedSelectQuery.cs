@@ -24,7 +24,7 @@ namespace ADO.NET_Queries.Dao
                                   "FROM Employee e " +
                                   "JOIN PayRates pr ON e.EmpId = pr.EmpId " +
                                   "JOIN [Location] l ON e.LocationId = l.LocationId " +
-                                  "WHERE l.City = @city;",
+                                  "WHERE l.City = @city;"
                 };
 
                 cmd.Parameters.AddWithValue("@city", city); //inject method params into query

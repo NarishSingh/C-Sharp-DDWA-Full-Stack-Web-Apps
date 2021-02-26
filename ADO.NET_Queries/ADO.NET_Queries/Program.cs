@@ -44,7 +44,6 @@ namespace ADO.NET_Queries
                         string city = Console.ReadLine();
                         PrintRates(query2.GetEmployeeRates(city));
                         break;
-                    /*
                     case "3":
                         InsertQuery query3 = new InsertQuery();
 
@@ -55,10 +54,11 @@ namespace ADO.NET_Queries
                         grantName = Console.ReadLine();
 
                         Console.Write("Enter a grant amount: ");
-                        amount = decimal.Parse(Console.ReadLine());
+                        amount = decimal.Parse(Console.ReadLine() ?? "0.00");
 
                         query3.InsertGrant(grantId, grantName, amount);
                         break;
+                    /*
                     case "4":
                         UpdateQuery query4 = new UpdateQuery();
 
