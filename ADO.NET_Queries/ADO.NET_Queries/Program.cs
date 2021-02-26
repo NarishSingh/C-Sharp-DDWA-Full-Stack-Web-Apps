@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using ADO.NET_Queries.Dao;
 using ADO.NET_Queries.Models;
 
@@ -72,7 +73,6 @@ namespace ADO.NET_Queries
 
                         query4.UpdateGrant(grantId, grantName, amount);
                         break;
-                    /*
                     case "5":
                         DeleteQuery query5 = new DeleteQuery();
 
@@ -81,7 +81,6 @@ namespace ADO.NET_Queries
 
                         query5.DeleteGrant(grantId);
                         break;
-                        */
                     case "Q":
                         return;
                     case "q":
@@ -104,9 +103,9 @@ namespace ADO.NET_Queries
             foreach (var rate in rates)
             {
                 Console.WriteLine(lineFormat, rate.EmpId, rate.FirstName, rate.LastName,
-                    rate.HourlyRate == null ? "0" : rate.HourlyRate.Value.ToString(),
-                    rate.MonthlySalary == null ? "0" : rate.MonthlySalary.Value.ToString(),
-                    rate.YearlySalary == null ? "0" : rate.YearlySalary.Value.ToString());
+                    rate.HourlyRate == null ? "0" : rate.HourlyRate.Value.ToString(CultureInfo.InvariantCulture),
+                    rate.MonthlySalary == null ? "0" : rate.MonthlySalary.Value.ToString(CultureInfo.InvariantCulture),
+                    rate.YearlySalary == null ? "0" : rate.YearlySalary.Value.ToString(CultureInfo.InvariantCulture));
             }
 
             Console.WriteLine("\n\nPress any key to continue...");
