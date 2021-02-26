@@ -58,7 +58,6 @@ namespace ADO.NET_Queries
 
                         query3.InsertGrant(grantId, grantName, amount);
                         break;
-                    /*
                     case "4":
                         UpdateQuery query4 = new UpdateQuery();
 
@@ -69,10 +68,11 @@ namespace ADO.NET_Queries
                         grantName = Console.ReadLine();
 
                         Console.Write("Enter a grant amount: ");
-                        amount = decimal.Parse(Console.ReadLine());
+                        amount = decimal.Parse(Console.ReadLine() ?? "0.00");
 
                         query4.UpdateGrant(grantId, grantName, amount);
                         break;
+                    /*
                     case "5":
                         DeleteQuery query5 = new DeleteQuery();
 
