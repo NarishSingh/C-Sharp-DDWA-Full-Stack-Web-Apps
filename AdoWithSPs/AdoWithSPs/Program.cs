@@ -44,7 +44,6 @@ namespace AdoWithSPs
                         string city = Console.ReadLine();
                         PrintRates(query2.GetEmployeeRates(city));
                         break;
-                    /*
                     case "3":
                         InsertQuery query3 = new InsertQuery();
 
@@ -81,7 +80,6 @@ namespace AdoWithSPs
 
                         query5.DeleteGrant(grantId);
                         break;
-                    */
                     case "Q":
                         return;
                     case "q":
