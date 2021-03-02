@@ -106,5 +106,61 @@ namespace MovieCatalogDapper.Data
                 m.MovieId = param.Get<int>("@MovieId");
             }
         }
+
+        /// <summary>
+        /// Update a Movie record
+        /// </summary>
+        /// <param name="m">Movie obj, well formed</param>
+        public void MovieEdit(Movie m)
+        {
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["MovieCatalog"]
+                    .ConnectionString;
+
+                var parameters = new DynamicParameters();
+
+                // declare output parameter
+                parameters.Add("@MovieId", m.MovieId);
+                parameters.Add("@Title", m.Title);
+                parameters.Add("@GenreId", m.GenreId);
+                parameters.Add("@RatingId", m.RatingId);
+
+                c.Execute("MovieUpdate", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        /// <summary>
+        /// Read all Genres from db
+        /// </summary>
+        /// <returns>IEnumerable with all Genres</returns>
+        public IEnumerable<Genre> GetGenres()
+        {
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["MovieCatalog"]
+                    .ConnectionString;
+
+                return c.Query<Genre>("GenreSelectAll", commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        /// <summary>
+        /// Read all Ratings from db
+        /// </summary>
+        /// <returns>IEnumerable with all Ratings</returns>
+        public IEnumerable<Rating> GetRatings()
+        {
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["MovieCatalog"]
+                    .ConnectionString;
+
+                return c.Query<Rating>("RatingSelectAll", commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }
