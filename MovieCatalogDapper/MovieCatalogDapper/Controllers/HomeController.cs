@@ -70,16 +70,16 @@ namespace MovieCatalogDapper.Controllers
 
             if (ModelState.IsValid)
             {
-                Movie m = new Movie
+                Movie movie = new Movie
                 {
                     Title = model.Title,
                     RatingId = model.SelectedRatingId,
                     GenreId = model.SelectedGenreId
                 };
 
-                repo.MovieInsert(m);
+                repo.MovieInsert(movie);
 
-                return RedirectToRoute("EditMovie", new {id = m.MovieId});
+                return RedirectToAction("EditMovie", new {id = movie.MovieId});
             }
             else
             {
