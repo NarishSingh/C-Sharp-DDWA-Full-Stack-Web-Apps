@@ -20,14 +20,17 @@
             </div>
             <div class="form-group">
                 <label>Genre</label>
-                @Html.DropDownListFor(m => m.SelectedGenreId, Model.Genres, "-SELECT-", new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.SelectedGenreId, Model.Genres, "-SELECT-",
+                    new {@class = "form-control"})
             </div>
             <div class="form-group">
                 <label>Rating</label>
-                @Html.DropDownListFor(m => m.SelectedRatingId, Model.Ratings, "-SELECT-", new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.SelectedRatingId, Model.Ratings, "-SELECT-",
+                    new {@class = "form-control"})
             </div>
 
-            @Html.ActionLink("Cancel", "Index", "Home", null, new {@class = "btn btn-default"})
+            @Html.ActionLink("Cancel", "Index", "Home", null,
+                new {@class = "btn btn-default"})
 
             <button class="btn btn-primary">Save</button>
         }

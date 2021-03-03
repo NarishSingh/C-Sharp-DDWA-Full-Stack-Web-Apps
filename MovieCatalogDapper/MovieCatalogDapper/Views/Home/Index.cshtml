@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<MovieCatalogDapper.Model.MovieListView>
 
 @{
-    ViewBag.Title = "title";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -29,7 +28,9 @@
                     <td>
                         @using (Html.BeginForm("DeleteMovie", "Home", new {id = movie.MovieId}, FormMethod.Post))
                         {
-                            <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete @movie.Title?')">Delete</button>
+                            <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete @movie.Title?')">
+                                Delete
+                            </button>
                         }
                     </td>
                     <td>
