@@ -12,10 +12,11 @@
                 c => new
                     {
                         GenreId = c.Int(nullable: false, identity: true),
-                        GenreType = c.String(),
+                        GenreType = c.String(maxLength: 10),
                     })
                 .PrimaryKey(t => t.GenreId);
             
+            //IMPORTANT: must always update to turn off cascade delete, and fix strings
             CreateTable(
                 "dbo.Movies",
                 c => new
@@ -23,10 +24,10 @@
                         MovieId = c.Int(nullable: false, identity: true),
                         GenreId = c.Int(nullable: false),
                         RatingId = c.Int(),
-                        Title = c.String(),
+                        Title = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.MovieId)
-                .ForeignKey("dbo.Genres", t => t.GenreId, cascadeDelete: true)
+                .ForeignKey("dbo.Genres", t => t.GenreId)
                 .ForeignKey("dbo.Ratings", t => t.RatingId)
                 .Index(t => t.GenreId)
                 .Index(t => t.RatingId);
@@ -36,7 +37,7 @@
                 c => new
                     {
                         RatingId = c.Int(nullable: false, identity: true),
-                        RatingName = c.String(),
+                        RatingName = c.String(maxLength: 5),
                     })
                 .PrimaryKey(t => t.RatingId);
             
