@@ -7,6 +7,7 @@
     {
         public override void Up()
         {
+            //list of all valid roles in db
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -18,6 +19,7 @@
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
+            //associates UserId and RoleId in many to many relationship
             CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
@@ -31,6 +33,7 @@
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
             
+            //Tracks user info, phone +  email allows for 2 factor auth if configured
             CreateTable(
                 "dbo.AspNetUsers",
                 c => new
@@ -51,6 +54,7 @@
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
+            //allows for claims based security instead of role based
             CreateTable(
                 "dbo.AspNetUserClaims",
                 c => new
@@ -64,6 +68,7 @@
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
+            //social media login providers
             CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
