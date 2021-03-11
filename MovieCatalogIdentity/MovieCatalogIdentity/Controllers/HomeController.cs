@@ -21,7 +21,7 @@ namespace MovieCatalogIdentity.Controllers
 
             return View(repo.GetAllMovies());
         }
-        
+
         /*LOGIN*/
         /// <summary>
         /// GET - Load login page - public
@@ -81,13 +81,32 @@ namespace MovieCatalogIdentity.Controllers
                 }
             }
         }
-        
+
         /*ADD MOVIE*/
         [Authorize(Roles = "admin")]
+        [HttpGet]
         public ActionResult AddMovie()
         {
             return null;
         }
-        
+
+        /*EDIT MOVIE*/
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public ActionResult EditMovie(int id)
+        {
+            return null;
+        }
+
+        /*DELETE MOVIE*/
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult DeleteMovie(int id)
+        {
+            var repo = new MovieRepo();
+            repo.MovieDelete(id);
+
+            return RedirectToAction("Index");
+        }
     }
 }

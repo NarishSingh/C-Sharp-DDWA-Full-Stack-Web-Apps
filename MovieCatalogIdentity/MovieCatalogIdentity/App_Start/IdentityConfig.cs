@@ -6,7 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using MovieCatalogIdentity.Models.Identity;
 using Owin;
 
-namespace MovieCatalogIdentity
+namespace MovieCatalogIdentity.App_Start
 {
     /// <summary>
     /// Setup for user authentication via cookies
