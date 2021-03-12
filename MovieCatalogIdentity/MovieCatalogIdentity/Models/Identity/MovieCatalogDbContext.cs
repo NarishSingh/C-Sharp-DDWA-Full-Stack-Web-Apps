@@ -4,6 +4,8 @@ namespace MovieCatalogIdentity.Models.Identity
 {
     public class MovieCatalogDbContext : IdentityDbContext<AppUser>
     {
-        
+        public MovieCatalogDbContext() : base("MovieCatalog")
+        {
+        }
     }
 }

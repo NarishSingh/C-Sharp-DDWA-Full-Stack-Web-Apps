@@ -31,7 +31,7 @@
                     <td>@movie.RatingName</td>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <td>@Html.ActionLink("edit", "EditMovie", "Home", new {id = @movie.MovieId}, new {@class = "btn btn-primary"})</td>
+                        <td>@Html.ActionLink("Edit", "EditMovie", "Home", new {id = @movie.MovieId}, new {@class = "btn btn-primary"})</td>
                         <td>
                             @using (Html.BeginForm("DeleteMovie", "Home", new {id = movie.MovieId}, FormMethod.Post))
                             {

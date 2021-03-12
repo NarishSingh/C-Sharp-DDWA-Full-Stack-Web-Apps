@@ -14,7 +14,12 @@ namespace MovieCatalogIdentity.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// GET - load Index page
+        /// </summary>
+        /// <returns>ActionResult with Index view with all Movies from db</returns>
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult Index()
         {
             var repo = new MovieRepo();

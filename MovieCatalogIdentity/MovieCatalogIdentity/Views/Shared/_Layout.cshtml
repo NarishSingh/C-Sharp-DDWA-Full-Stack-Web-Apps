@@ -24,7 +24,7 @@
                 @* Only shows if logged in *@
                 @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                 {
-                    <li>@Html.ActionLink("Add Movie", "AddMovie", "Home"))</li>
+                    <li>@Html.ActionLink("Add Movie", "AddMovie", "Home")</li>
                 }
             </ul>
 
