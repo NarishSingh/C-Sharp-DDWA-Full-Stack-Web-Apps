@@ -22,11 +22,11 @@ namespace FileUploads.Controllers
         public ActionResult Index(FileUploadVM model)
         {
             //if a file was uploaded
-            if (model.Upload != null && model.Upload.ContentLength>0)
+            if (model.Upload != null && model.Upload.ContentLength > 0)
             {
                 //convert web path to a dir path and save locally
                 string path = Path.Combine(Server.MapPath("~/Uploads"), Path.GetFileName(model.Upload.FileName));
-                
+
                 model.Upload.SaveAs(path);
             }
 
@@ -44,7 +44,7 @@ namespace FileUploads.Controllers
             ViewBag.Message = "Your contact page.";
             return View();
         }
-        
+
         /*Get binary rep of a file for db upload*/
         private byte[] ConvertPostedFileToByteArray(HttpPostedFileBase file)
         {
