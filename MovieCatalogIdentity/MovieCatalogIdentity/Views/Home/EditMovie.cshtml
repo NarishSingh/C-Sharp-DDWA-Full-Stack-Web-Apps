@@ -11,6 +11,8 @@
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary()
+            
+            @Html.HiddenFor(m => m.MovieId)
 
             <div class="form-group">
                 <label>Title</label>

@@ -88,11 +88,14 @@ namespace MovieCatalogIdentity.Controllers
         }
 
         /*ADD MOVIE*/
+        /// <summary>
+        /// GET - Load view for adding a new movie entry
+        /// </summary>
+        /// <returns>ActionResult with a ViewModel for adding new movie</returns>
         [Authorize(Roles = "admin")]
         [HttpGet]
         public ActionResult AddMovie()
         {
-            MovieRepo repo = new MovieRepo();
             AddMovieVM model = new AddMovieVM
             {
                 Genres = ReadAllGenres(),
@@ -102,6 +105,11 @@ namespace MovieCatalogIdentity.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// POST - Add a new movie entry to db
+        /// </summary>
+        /// <param name="model">AddMovieVM with new movie data</param>
+        /// <returns>ActionResult to redirect to edit page on successful persistence, reload page otherwise</returns>
         [Authorize(Roles = "admin")]
         [HttpPost]
         public ActionResult AddMovie(AddMovieVM model)
@@ -116,11 +124,11 @@ namespace MovieCatalogIdentity.Controllers
                     GenreId = model.SelectedGenreId,
                     RatingId = model.SelectedRatingId
                 };
-                
+
                 repo.MovieInsert(movie);
                 return RedirectToAction("EditMovie", new {id = movie.MovieId});
             }
-            
+
             //fail
             model.Genres = ReadAllGenres();
             model.Ratings = ReadAllRatings();
@@ -129,11 +137,67 @@ namespace MovieCatalogIdentity.Controllers
         }
 
         /*EDIT MOVIE*/
+        /// <summary>
+        /// GET - Load view for editing a movie entry
+        /// </summary>
+        /// <param name="id">int for an existing movie entry</param>
+        /// <returns>ActionResult load view for an existing movie entry, redirect to Index otherwise</returns>
         [Authorize(Roles = "admin")]
         [HttpGet]
         public ActionResult EditMovie(int id)
         {
-            return null;
+            MovieRepo repo = new MovieRepo();
+            var movie = repo.GetMovieById(id);
+
+            if (movie == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            EditMovieVM model = new EditMovieVM
+            {
+                MovieId = movie.MovieId,
+                Title = movie.Title,
+                SelectedGenreId = movie.GenreId,
+                SelectedRatingId = movie.RatingId,
+                Genres = ReadAllGenres(),
+                Ratings = ReadAllRatings()
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// POST - Update a movie record
+        /// </summary>
+        /// <param name="model">EditMovieVM with updated movie info</param>
+        /// <returns>ActionResult redirect to Index on successful update, reload otherwise</returns>
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult EditMovie(EditMovieVM model)
+        {
+            MovieRepo repo = new MovieRepo();
+
+            if (ModelState.IsValid)
+            {
+                Movie movie = new Movie
+                {
+                    MovieId = model.MovieId,
+                    Title = model.Title,
+                    GenreId = model.SelectedGenreId,
+                    RatingId = model.SelectedRatingId
+                };
+
+                repo.MovieEdit(movie);
+
+                return RedirectToAction("Index");
+            }
+
+            //fail
+            model.Genres = ReadAllGenres();
+            model.Ratings = ReadAllRatings();
+
+            return View(model);
         }
 
         /*DELETE MOVIE*/
