@@ -11,6 +11,10 @@ namespace FileUploads.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// GET - Load index page
+        /// </summary>
+        /// <returns>ActionResult with a ViewModel ready to take a user upload</returns>
         [HttpGet]
         public ActionResult Index()
         {
@@ -18,6 +22,11 @@ namespace FileUploads.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// POST - upload a file and store to local "Uploads" directory
+        /// </summary>
+        /// <param name="model">FileUploadVM with the posted file</param>
+        /// <returns>ActionResult reload page on upload</returns>
         [HttpPost]
         public ActionResult Index(FileUploadVM model)
         {
@@ -45,12 +54,15 @@ namespace FileUploads.Controllers
             return View();
         }
 
-        /*Get binary rep of a file for db upload*/
+        /// <summary>
+        /// Get binary rep of a file for db upload
+        /// </summary>
+        /// <param name="file">HttpPostedFileBase form user upload</param>
+        /// <returns>byte[] to be stored as an "Image" type on MS SQL Server</returns>
         private byte[] ConvertPostedFileToByteArray(HttpPostedFileBase file)
         {
-            byte[] imageByte = null;
             BinaryReader rdr = new BinaryReader(file.InputStream);
-            imageByte = rdr.ReadBytes((int) file.ContentLength);
+            byte[] imageByte = rdr.ReadBytes((int) file.ContentLength);
             return imageByte;
         }
     }
