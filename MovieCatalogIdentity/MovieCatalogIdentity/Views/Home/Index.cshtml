@@ -29,7 +29,7 @@
                     <td>@movie.Title</td>
                     <td>@movie.GenreType</td>
                     <td>@movie.RatingName</td>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                     {
                         <td>@Html.ActionLink("Edit", "EditMovie", "Home", new {id = @movie.MovieId}, new {@class = "btn btn-primary"})</td>
                         <td>

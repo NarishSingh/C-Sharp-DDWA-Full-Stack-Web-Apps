@@ -59,7 +59,7 @@ namespace MovieCatalogIdentity.Controllers
             var authMgr = HttpContext.GetOwinContext().Authentication;
 
             //attempt to load user with password
-            AppUser user = userMgr.Find(model.UserName, model.Password); //TODO FIXME db connection issue here
+            AppUser user = userMgr.Find(model.UserName, model.Password);
 
             //if search fails, user will become null then reload
             if (user == null)
@@ -92,7 +92,40 @@ namespace MovieCatalogIdentity.Controllers
         [HttpGet]
         public ActionResult AddMovie()
         {
-            return null;
+            MovieRepo repo = new MovieRepo();
+            AddMovieVM model = new AddMovieVM
+            {
+                Genres = ReadAllGenres(),
+                Ratings = ReadAllRatings()
+            };
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult AddMovie(AddMovieVM model)
+        {
+            MovieRepo repo = new MovieRepo();
+
+            if (ModelState.IsValid)
+            {
+                Movie movie = new Movie
+                {
+                    Title = model.Title,
+                    GenreId = model.SelectedGenreId,
+                    RatingId = model.SelectedRatingId
+                };
+                
+                repo.MovieInsert(movie);
+                return RedirectToAction("EditMovie", new {id = movie.MovieId});
+            }
+            
+            //fail
+            model.Genres = ReadAllGenres();
+            model.Ratings = ReadAllRatings();
+
+            return View(model);
         }
 
         /*EDIT MOVIE*/
@@ -112,6 +145,39 @@ namespace MovieCatalogIdentity.Controllers
             repo.MovieDelete(id);
 
             return RedirectToAction("Index");
+        }
+
+        /*HELPERS*/
+        /// <summary>
+        /// Read all Genres from db for View
+        /// </summary>
+        /// <returns>IEnumerable of SelectListItem with Genre type and id</returns>
+        private IEnumerable<SelectListItem> ReadAllGenres()
+        {
+            MovieRepo repo = new MovieRepo();
+            return repo.GetGenres()
+                .Select(g => new SelectListItem
+                    {
+                        Text = g.GenreType,
+                        Value = g.GenreId.ToString()
+                    }
+                );
+        }
+
+        /// <summary>
+        /// Read all Ratings from db for View
+        /// </summary>
+        /// <returns>IEnumerable of SelectListItem with Rating name and id</returns>
+        private IEnumerable<SelectListItem> ReadAllRatings()
+        {
+            MovieRepo repo = new MovieRepo();
+            return repo.GetRatings()
+                .Select(r => new SelectListItem
+                    {
+                        Text = r.RatingName,
+                        Value = r.RatingId.ToString()
+                    }
+                );
         }
     }
 }
