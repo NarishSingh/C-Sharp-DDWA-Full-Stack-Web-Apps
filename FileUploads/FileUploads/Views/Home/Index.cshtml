@@ -1,0 +1,19 @@
+﻿@model FileUploads.Models.FileUploadVM
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-4">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new {enctype = "multipart/form-data", id = "frmUpload"}))
+            {
+                <div class="form-group">
+                    <label>Select File:</label>
+                    @Html.TextBoxFor(m => m.Upload, new {type = "file", @class = "form-control"})
+                </div>
+                <button class="btn btn-primary">Upload</button>
+            }
+        </div>
+    </div>
+</div>
