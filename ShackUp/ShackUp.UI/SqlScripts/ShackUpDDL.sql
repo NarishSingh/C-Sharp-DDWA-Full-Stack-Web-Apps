@@ -1,25 +1,35 @@
-﻿USE master;
-GO
-
-IF EXISTS(SELECT *
-          FROM sys.databases
-          WHERE name = 'ShackUp')
-    DROP DATABASE ShackUp;
-GO
-
-CREATE DATABASE ShackUp;
-GO
-
-USE ShackUp;
-GO
-
--- STATES
+﻿-- table drops
 IF EXISTS(SELECT *
           FROM sys.tables
           WHERE name = 'States')
     DROP TABLE States
 GO
 
+IF EXISTS(SELECT *
+          FROM sys.tables
+          WHERE name = 'BathroomTypes')
+    DROP TABLE BathroomTypes
+GO
+
+IF EXISTS(SELECT *
+          FROM sys.tables
+          WHERE name = 'Listings')
+    DROP TABLE Listings
+GO
+
+IF EXISTS(SELECT *
+          FROM sys.tables
+          WHERE name = 'Contacts')
+    DROP TABLE Contacts
+GO
+
+IF EXISTS(SELECT *
+          FROM sys.tables
+          WHERE name = 'Favorites')
+    DROP TABLE Favorites
+GO
+
+-- STATES
 CREATE TABLE States
 (
     StateId   CHAR(2) PRIMARY KEY NOT NULL,
@@ -27,12 +37,6 @@ CREATE TABLE States
 );
 
 -- BATHROOM TYPES
-IF EXISTS(SELECT *
-          FROM sys.tables
-          WHERE name = 'BathroomTypes')
-    DROP TABLE BathroomTypes
-GO
-
 CREATE TABLE BathroomTypes
 (
     BathroomTypeId   INT IDENTITY (1,1) PRIMARY KEY NOT NULL,
@@ -40,12 +44,6 @@ CREATE TABLE BathroomTypes
 );
 
 -- LISTINGS
-IF EXISTS(SELECT *
-          FROM sys.tables
-          WHERE name = 'Listings')
-    DROP TABLE Listings
-GO
-
 -- NVARCHAR coming from AspNetUsers, not a FK as if ASP Id changes, this can change. Also, if the user is deleted you get to keep their data
 CREATE TABLE Listings
 (
@@ -68,12 +66,6 @@ CREATE TABLE Listings
 );
 
 -- Contacts bridge table
-IF EXISTS(SELECT *
-          FROM sys.tables
-          WHERE name = 'Contacts')
-    DROP TABLE Contacts
-GO
-
 CREATE TABLE Contacts
 (
     ListingId INT           NOT NULL,
@@ -84,12 +76,6 @@ CREATE TABLE Contacts
 );
 
 -- Favorites bridge table
-IF EXISTS(SELECT *
-          FROM sys.tables
-          WHERE name = 'Favorites')
-    DROP TABLE Favorites
-GO
-
 CREATE TABLE Favorites
 (
     ListingId INT           NOT NULL,
