@@ -46,16 +46,17 @@ IF EXISTS(SELECT *
     DROP TABLE Listings
 GO
 
+-- NVARCHAR coming from AspNetUsers, not a FK as if ASP Id changes, this can change. Also, if the user is deleted you get to keep their data
 CREATE TABLE Listings
 (
     ListingID          INT IDENTITY (1,1) PRIMARY KEY NOT NULL,
-    UserId             NVARCHAR(128)                  NOT NULL, -- NVARCHAR coming from AspNetUsers, not a FK as if ASP Id changes, this can change
+    UserId             NVARCHAR(128)                  NOT NULL,
     StateId            CHAR(2)                        NOT NULL,
     BathroomTypeId     INT                            NULL FOREIGN KEY
-        REFERENCES BathroomTypes (BathroomTypeId), -- nullable
+        REFERENCES BathroomTypes (BathroomTypeId),              -- nullable FK
     Nickname           NVARCHAR(50)                   NOT NULL,
     City               NVARCHAR(50)                   NOT NULL,
-    Rate               DECIMAL(7, 2)                  NOT NULL,
+    Rate               DECIMAL(7, 2)                  NOT NULL, -- max $99,999.99
     SquareFootage      DECIMAL(7, 2)                  NOT NULL,
     HasElectric        BIT                            NOT NULL,
     HasHeat            BIT                            NOT NULL,
@@ -63,7 +64,7 @@ CREATE TABLE Listings
     ImageFileName      VARCHAR(50)                    NULL,
     CreatedDate        DATETIME2                      NOT NULL DEFAULT (GETDATE()),
     CONSTRAINT Fk_State_Listings FOREIGN KEY (StateId)
-        REFERENCES States (StateId),
+        REFERENCES States (StateId)
 );
 
 -- Contacts bridge table
