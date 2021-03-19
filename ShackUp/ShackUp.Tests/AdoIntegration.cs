@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using ShackUp.Data.ADO;
 using ShackUp.Data.Interfaces;
@@ -58,6 +59,15 @@ namespace ShackUp.Tests
             Assert.AreEqual(true, l.HasHeat);
             Assert.AreEqual("placeholder.png", l.ImageFileName);
             Assert.AreEqual("Description", l.ListingDescription);
+        }
+
+        [Test]
+        public void ListingNotFound()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+            Listing l = repo.ReadListingById(Int32.MaxValue);
+
+            Assert.IsNull(l);
         }
     }
 }
