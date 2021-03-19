@@ -38,5 +38,26 @@ namespace ShackUp.Tests
             Assert.AreEqual(3, bRooms[2].BathroomTypeId);
             Assert.AreEqual("None", bRooms[2].BathroomTypeName);
         }
+
+        [Test]
+        public void LoadListingById()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+            Listing l = repo.ReadListingById(1);
+
+            Assert.IsNotNull(l);
+            Assert.AreEqual(1, l.ListingId);
+            Assert.AreEqual("00000000-0000-0000-0000-000000000000", l.UserId);
+            Assert.AreEqual("OH", l.StateId);
+            Assert.AreEqual(3, l.BathroomTypeId);
+            Assert.AreEqual("Test shack 1", l.Nickname);
+            Assert.AreEqual("Cleveland", l.City);
+            Assert.AreEqual(100, l.Rate);
+            Assert.AreEqual(400, l.SquareFootage);
+            Assert.AreEqual(false, l.HasElectric);
+            Assert.AreEqual(true, l.HasHeat);
+            Assert.AreEqual("placeholder.png", l.ImageFileName);
+            Assert.AreEqual("Description", l.ListingDescription);
+        }
     }
 }
