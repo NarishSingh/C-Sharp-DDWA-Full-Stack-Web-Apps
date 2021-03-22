@@ -118,5 +118,53 @@ namespace ShackUp.Tests
 
             Assert.AreEqual(7, testListing.ListingId);
         }
+
+        [Test]
+        public void UpdateListing()
+        {
+            Listing testListing = new Listing
+            {
+                UserId = "00000000-0000-0000-0000-000000000000",
+                StateId = "OH",
+                BathroomTypeId = 1,
+                Nickname = "My Test Shack",
+                City = "Columbus",
+                Rate = 50M,
+                SquareFootage = 100M,
+                HasElectric = true,
+                HasHeat = true,
+                ImageFileName = "placeholder.png",
+                ListingDescription = "Description"
+            };
+            IListingRepo repo = new ListingsRepoADO();
+
+            repo.CreateListing(testListing);
+
+            testListing.StateId = "KY";
+            testListing.Nickname = "update";
+            testListing.BathroomTypeId = 2;
+            testListing.City = "Louisville";
+            testListing.Rate = 25M;
+            testListing.SquareFootage = 75M;
+            testListing.HasElectric = false;
+            testListing.HasHeat = false;
+            testListing.ImageFileName = "updated.png";
+            testListing.ListingDescription = "updated description";
+            
+            repo.UpdateListing(testListing);
+            Listing updated = repo.ReadListingById(testListing.ListingId);
+            
+            Assert.NotNull(updated);
+            Assert.AreEqual("KY", updated.StateId);
+            Assert.AreEqual("update", updated.Nickname);
+            Assert.AreEqual(2, updated.BathroomTypeId);
+            Assert.AreEqual("Louisville", updated.City);
+            Assert.AreEqual(25M, updated.Rate);
+            Assert.AreEqual(75M, updated.SquareFootage);
+            Assert.AreEqual(false, updated.HasElectric);
+            Assert.AreEqual(false, updated.HasHeat);
+            Assert.AreEqual("updated.png", updated.ImageFileName);
+            Assert.AreEqual("updated description", updated.ListingDescription);
+        }
     }
 }

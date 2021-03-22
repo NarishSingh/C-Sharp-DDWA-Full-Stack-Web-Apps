@@ -41,8 +41,8 @@ namespace ShackUp.Data.ADO
                 cmd.Parameters.AddWithValue("@SquareFootage", listing.SquareFootage);
                 cmd.Parameters.AddWithValue("@HasElectric", listing.HasElectric);
                 cmd.Parameters.AddWithValue("@HasHeat", listing.HasHeat);
-                cmd.Parameters.AddWithValue("@ListingDescription", listing.ListingDescription);
                 cmd.Parameters.AddWithValue("@ImageFileName", listing.ImageFileName);
+                cmd.Parameters.AddWithValue("@ListingDescription", listing.ListingDescription);
 
                 c.Open();
 
@@ -107,7 +107,36 @@ namespace ShackUp.Data.ADO
 
         public void UpdateListing(Listing listing)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["ShackUp"]
+                    .ConnectionString;
+
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ListingUpdate",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("@ListingId", listing.ListingId);
+                cmd.Parameters.AddWithValue("@UserId", listing.UserId);
+                cmd.Parameters.AddWithValue("@StateId", listing.StateId);
+                cmd.Parameters.AddWithValue("@BathroomTypeId", listing.BathroomTypeId);
+                cmd.Parameters.AddWithValue("@Nickname", listing.Nickname);
+                cmd.Parameters.AddWithValue("@City", listing.City);
+                cmd.Parameters.AddWithValue("@Rate", listing.Rate);
+                cmd.Parameters.AddWithValue("@SquareFootage", listing.SquareFootage);
+                cmd.Parameters.AddWithValue("@HasElectric", listing.HasElectric);
+                cmd.Parameters.AddWithValue("@HasHeat", listing.HasHeat);
+                cmd.Parameters.AddWithValue("@ImageFileName", listing.ImageFileName);
+                cmd.Parameters.AddWithValue("@ListingDescription", listing.ListingDescription);
+
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public void DeleteListing(int listingId)
