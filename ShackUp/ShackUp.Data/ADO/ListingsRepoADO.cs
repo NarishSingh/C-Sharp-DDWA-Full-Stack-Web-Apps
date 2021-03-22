@@ -11,7 +11,44 @@ namespace ShackUp.Data.ADO
     {
         public void CreateListing(Listing listing)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["ShackUp"]
+                    .ConnectionString;
+
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ListingInsert",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                //ouput param
+                SqlParameter param = new SqlParameter("@ListingId", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(param);
+
+                //other params for insert
+                cmd.Parameters.AddWithValue("@UserId", listing.UserId);
+                cmd.Parameters.AddWithValue("@StateId", listing.StateId);
+                cmd.Parameters.AddWithValue("@BathroomTypeId", listing.BathroomTypeId);
+                cmd.Parameters.AddWithValue("@Nickname", listing.Nickname);
+                cmd.Parameters.AddWithValue("@City", listing.City);
+                cmd.Parameters.AddWithValue("@Rate", listing.Rate);
+                cmd.Parameters.AddWithValue("@SquareFootage", listing.SquareFootage);
+                cmd.Parameters.AddWithValue("@HasElectric", listing.HasElectric);
+                cmd.Parameters.AddWithValue("@HasHeat", listing.HasHeat);
+                cmd.Parameters.AddWithValue("@ListingDescription", listing.ListingDescription);
+                cmd.Parameters.AddWithValue("@ImageFileName", listing.ImageFileName);
+
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+                listing.ListingId = (int) param.Value;
+            }
         }
 
         public Listing ReadListingById(int listingId)
@@ -31,7 +68,7 @@ namespace ShackUp.Data.ADO
                     CommandType = CommandType.StoredProcedure
                 };
                 cmd.Parameters.AddWithValue("@ListingId", listingId);
-                
+
                 c.Open();
 
                 using (SqlDataReader dr = cmd.ExecuteReader())
@@ -56,7 +93,7 @@ namespace ShackUp.Data.ADO
                         {
                             listing.ListingDescription = dr["ListingDescription"].ToString();
                         }
-                        
+
                         if (dr["ImageFileName"] != DBNull.Value)
                         {
                             listing.ImageFileName = dr["ImageFileName"].ToString();
@@ -64,7 +101,7 @@ namespace ShackUp.Data.ADO
                     }
                 }
             }
-            
+
             return listing;
         }
 

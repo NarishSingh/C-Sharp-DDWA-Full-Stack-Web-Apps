@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using NUnit.Framework;
 using ShackUp.Data.ADO;
 using ShackUp.Data.Interfaces;
@@ -10,6 +13,28 @@ namespace ShackUp.Tests
     [TestFixture]
     public class AdoIntegration
     {
+        [SetUp]
+        public void Init()
+        {
+            //reset db to a known state for each test
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["ShackUp"]
+                    .ConnectionString;
+
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "DbReset",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                c.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         [Test]
         public void LoadAllStates()
         {
@@ -68,6 +93,30 @@ namespace ShackUp.Tests
             Listing l = repo.ReadListingById(Int32.MaxValue);
 
             Assert.IsNull(l);
+        }
+
+        [Test]
+        public void CreateListing()
+        {
+            Listing testListing = new Listing
+            {
+                UserId = "00000000-0000-0000-0000-000000000000",
+                StateId = "OH",
+                BathroomTypeId = 1,
+                Nickname = "My Test Shack",
+                City = "Columbus",
+                Rate = 50M,
+                SquareFootage = 100M,
+                HasElectric = true,
+                HasHeat = true,
+                ImageFileName = "placeholder.png",
+                ListingDescription = "Description"
+            };
+            IListingRepo repo = new ListingsRepoADO();
+
+            repo.CreateListing(testListing);
+
+            Assert.AreEqual(7, testListing.ListingId);
         }
     }
 }
