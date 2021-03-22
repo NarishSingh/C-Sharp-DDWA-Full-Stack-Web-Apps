@@ -161,3 +161,48 @@ BEGIN
     WHERE ListingID = @ListingID
 END
 GO
+
+-- ListingSelectRecent
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ListingsSelectRecent')
+    DROP PROCEDURE ListingsSelectRecent
+GO
+
+CREATE PROCEDURE ListingsSelectRecent AS
+BEGIN
+    SELECT TOP 5 ListingID, UserId, Rate, City, StateId, ImageFileName
+    FROM Listings
+    ORDER BY CreatedDate DESC
+END
+GO
+
+-- ListingSelectDetails
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ListingsSelectDetails')
+    DROP PROCEDURE ListingsSelectDetails
+GO
+
+CREATE PROCEDURE ListingsSelectDetails(
+    @ListingId INT
+) AS
+BEGIN
+    SELECT ListingID,
+           UserId,
+           Nickname,
+           City,
+           StateId,
+           Rate,
+           SquareFootage,
+           HasElectric,
+           HasHeat,
+           L.BathroomTypeId,
+           BathroomTypeName,
+           ImageFileName,
+           L.ListingDescription
+    FROM Listings L
+             inner join BathroomTypes BT on L.BathroomTypeId = BT.BathroomTypeId
+    WHERE ListingID = @ListingId
+END
+GO

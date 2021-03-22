@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using NUnit.Framework;
 using ShackUp.Data.ADO;
 using ShackUp.Data.Interfaces;
 using ShackUp.Models.Db;
+using ShackUp.Models.Queried;
 
 namespace ShackUp.Tests
 {
@@ -150,10 +152,10 @@ namespace ShackUp.Tests
             testListing.HasHeat = false;
             testListing.ImageFileName = "updated.png";
             testListing.ListingDescription = "updated description";
-            
+
             repo.UpdateListing(testListing);
             Listing updated = repo.ReadListingById(testListing.ListingId);
-            
+
             Assert.NotNull(updated);
             Assert.AreEqual("KY", updated.StateId);
             Assert.AreEqual("update", updated.Nickname);
@@ -187,15 +189,53 @@ namespace ShackUp.Tests
             IListingRepo repo = new ListingsRepoADO();
 
             repo.CreateListing(testListing);
-            int testID = testListing.ListingId;
-            Listing loaded = repo.ReadListingById(testID);
+            int testId = testListing.ListingId;
+            Listing loaded = repo.ReadListingById(testId);
             Assert.IsNotNull(loaded);
-            
-            repo.DeleteListing(testID);
-            loaded = repo.ReadListingById(testID);
-            
-            Assert.IsNull(loaded);
 
+            repo.DeleteListing(testId);
+            loaded = repo.ReadListingById(testId);
+
+            Assert.IsNull(loaded);
+        }
+
+        [Test]
+        public void ReadRecentListings()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+
+            List<ListingShortItem> listings = repo.ReadAllRecent().ToList();
+
+            Assert.AreEqual(5, listings.Count);
+            Assert.AreEqual(6, listings[0].ListingId); //in SP its loaded from CreatedDate descending, so last first
+            Assert.AreEqual("00000000-0000-0000-0000-000000000000", listings[0].UserId);
+            Assert.AreEqual(150M, listings[0].Rate);
+            Assert.AreEqual("Cleveland", listings[0].City);
+            Assert.AreEqual("OH", listings[0].StateId);
+            Assert.AreEqual("placeholder.png", listings[0].ImageFileName);
+        }
+
+        [Test]
+        public void ReadListingDetails()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+            ListingItem listing = repo.ReadDetailedListingById(1);
+            
+            Assert.IsNotNull(listing);
+            
+            Assert.AreEqual(1, listing.ListingId);
+            Assert.AreEqual("00000000-0000-0000-0000-000000000000", listing.UserId);
+            Assert.AreEqual("OH", listing.StateId);
+            Assert.AreEqual(3, listing.BathroomTypeId);
+            Assert.AreEqual("Test shack 1", listing.Nickname);
+            Assert.AreEqual("Cleveland", listing.City);
+            Assert.AreEqual(100M, listing.Rate);
+            Assert.AreEqual(400M, listing.SquareFootage);
+            Assert.AreEqual(false, listing.HasElectric);
+            Assert.AreEqual(true, listing.HasHeat);
+            Assert.AreEqual("placeholder.png", listing.ImageFileName);
+            Assert.AreEqual("None", listing.BathroomTypeName);
+            Assert.AreEqual("Description", listing.ListingDescription);
         }
     }
 }
