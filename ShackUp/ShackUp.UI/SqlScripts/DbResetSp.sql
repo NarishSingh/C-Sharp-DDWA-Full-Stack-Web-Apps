@@ -10,6 +10,7 @@ GO
 
 CREATE PROCEDURE DbReset AS
 BEGIN
+    DELETE FROM Favorites;
     DELETE FROM Listings;
     DELETE FROM States;
     DELETE FROM BathroomTypes;
@@ -54,6 +55,10 @@ BEGIN
            (6, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 6', 'Cleveland', 150, 450, 0, 1,
             'placeholder.png', null)
     SET IDENTITY_INSERT Listings OFF;
+
+    INSERT INTO Favorites(ListingId, UserId)
+    VALUES (1, '11111111-1111-1111-1111-111111111111'),
+           (2, '11111111-1111-1111-1111-111111111111');
 END
 GO
 

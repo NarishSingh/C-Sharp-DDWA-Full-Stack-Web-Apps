@@ -206,3 +206,31 @@ BEGIN
     WHERE ListingID = @ListingId
 END
 GO
+
+-- FavoritesSelect
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ListingsSelectFavorites')
+    DROP PROCEDURE ListingsSelectFavorites
+GO
+
+CREATE PROCEDURE ListingsSelectFavorites(
+    @UserId NVARCHAR(128)
+) AS
+BEGIN
+    SELECT L.ListingID,
+           L.City,
+           L.StateId,
+           L.Rate,
+           L.SquareFootage,
+           L.UserId,
+           L.HasElectric,
+           L.HasHeat,
+           L.BathroomTypeId,
+           BT.BathroomTypeName
+    FROM Favorites F
+             INNER JOIN Listings L on L.ListingID = F.ListingId
+             INNER JOIN BathroomTypes BT on BT.BathroomTypeId = L.BathroomTypeId
+    WHERE F.UserId = @UserId
+END
+GO

@@ -237,5 +237,26 @@ namespace ShackUp.Tests
             Assert.AreEqual("None", listing.BathroomTypeName);
             Assert.AreEqual("Description", listing.ListingDescription);
         }
+
+        [Test]
+        public void ReadFavorites()
+        {
+            IAccountRepo repo = new AccountRepoADO();
+            
+            var favorites = repo.ReadFavorites("11111111-1111-1111-1111-111111111111").ToList();
+
+            Assert.AreEqual(2, favorites.Count);
+
+            Assert.AreEqual(1, favorites[0].ListingId);
+            Assert.AreEqual("00000000-0000-0000-0000-000000000000", favorites[0].UserId);
+            Assert.AreEqual("OH", favorites[0].StateId);
+            Assert.AreEqual("Cleveland", favorites[0].City);
+            Assert.AreEqual(100M, favorites[0].Rate);
+            Assert.AreEqual(400M, favorites[0].SquareFootage);
+            Assert.AreEqual(false, favorites[0].HasElectric);
+            Assert.AreEqual(true, favorites[0].HasHeat);
+            Assert.AreEqual("None", favorites[0].BathroomTypeName);
+            Assert.AreEqual(3, favorites[0].BathroomTypeId);
+        }
     }
 }

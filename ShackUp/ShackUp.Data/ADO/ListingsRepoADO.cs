@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using ShackUp.Data.Interfaces;
@@ -13,7 +12,7 @@ namespace ShackUp.Data.ADO
     {
         public void CreateListing(Listing listing)
         {
-            using (SqlConnection c = new SqlConnection(GetConnString()))
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -53,7 +52,7 @@ namespace ShackUp.Data.ADO
         {
             Listing listing = null;
 
-            using (SqlConnection c = new SqlConnection(GetConnString()))
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -103,7 +102,7 @@ namespace ShackUp.Data.ADO
         {
             List<ListingShortItem> listings = new List<ListingShortItem>();
 
-            using (SqlConnection c = new SqlConnection(GetConnString()))
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -144,7 +143,7 @@ namespace ShackUp.Data.ADO
         {
             ListingItem listing = null;
 
-            using (SqlConnection c = new SqlConnection(GetConnString()))
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -193,7 +192,7 @@ namespace ShackUp.Data.ADO
 
         public void UpdateListing(Listing listing)
         {
-            using (SqlConnection c = new SqlConnection(GetConnString()))
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -223,7 +222,7 @@ namespace ShackUp.Data.ADO
 
         public void DeleteListing(int listingId)
         {
-            using (SqlConnection c = new SqlConnection(GetConnString()))
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -237,18 +236,6 @@ namespace ShackUp.Data.ADO
 
                 cmd.ExecuteNonQuery();
             }
-        }
-
-        /*HELPERS*/
-        /// <summary>
-        /// Get the connection string from App.config
-        /// </summary>
-        /// <returns>string for connection string to db</returns>
-        private static string GetConnString()
-        {
-            return ConfigurationManager
-                .ConnectionStrings["ShackUp"]
-                .ConnectionString;
         }
     }
 }
