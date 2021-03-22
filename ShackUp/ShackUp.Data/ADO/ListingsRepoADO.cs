@@ -141,7 +141,24 @@ namespace ShackUp.Data.ADO
 
         public void DeleteListing(int listingId)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection c = new SqlConnection())
+            {
+                c.ConnectionString = ConfigurationManager
+                    .ConnectionStrings["ShackUp"]
+                    .ConnectionString;
+
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ListingDelete",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

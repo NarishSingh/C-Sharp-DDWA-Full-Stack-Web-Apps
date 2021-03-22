@@ -166,5 +166,36 @@ namespace ShackUp.Tests
             Assert.AreEqual("updated.png", updated.ImageFileName);
             Assert.AreEqual("updated description", updated.ListingDescription);
         }
+
+        [Test]
+        public void DeleteListing()
+        {
+            Listing testListing = new Listing
+            {
+                UserId = "00000000-0000-0000-0000-000000000000",
+                StateId = "OH",
+                BathroomTypeId = 1,
+                Nickname = "My Test Shack",
+                City = "Columbus",
+                Rate = 50M,
+                SquareFootage = 100M,
+                HasElectric = true,
+                HasHeat = true,
+                ImageFileName = "placeholder.png",
+                ListingDescription = "Description"
+            };
+            IListingRepo repo = new ListingsRepoADO();
+
+            repo.CreateListing(testListing);
+            int testID = testListing.ListingId;
+            Listing loaded = repo.ReadListingById(testID);
+            Assert.IsNotNull(loaded);
+            
+            repo.DeleteListing(testID);
+            loaded = repo.ReadListingById(testID);
+            
+            Assert.IsNull(loaded);
+
+        }
     }
 }
