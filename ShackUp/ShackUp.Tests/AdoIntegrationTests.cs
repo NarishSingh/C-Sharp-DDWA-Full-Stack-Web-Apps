@@ -299,7 +299,7 @@ namespace ShackUp.Tests
         [Test]
         public void CreateDeleteFavorites()
         {
-            string user = "11111111-1111-1111-1111-111111111111";
+            const string user = "11111111-1111-1111-1111-111111111111";
             IAccountRepo repo = new AccountRepoADO();
 
             repo.CreateFavorite(user, 3);
@@ -316,16 +316,16 @@ namespace ShackUp.Tests
         [Test]
         public void CreateDeleteContacts()
         {
-            string contactID = "11111111-1111-1111-1111-111111111111";
-            string user = "00000000-0000-0000-0000-000000000000";
+            const string contactId = "11111111-1111-1111-1111-111111111111";
+            const string user = "00000000-0000-0000-0000-000000000000";
             IAccountRepo repo = new AccountRepoADO();
 
-            repo.CreateContact(contactID, 5);
+            repo.CreateContact(contactId, 5);
             List<ContactRequestItem> contacts = repo.ReadContacts(user).ToList();
 
             Assert.AreEqual(3, contacts.Count);
 
-            repo.DeleteContact(contactID, 3);
+            repo.DeleteContact(contactId, 3);
             contacts = repo.ReadContacts(user).ToList();
 
             Assert.AreEqual(2, contacts.Count);
