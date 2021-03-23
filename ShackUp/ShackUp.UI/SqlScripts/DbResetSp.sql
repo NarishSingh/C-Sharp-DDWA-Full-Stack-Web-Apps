@@ -11,6 +11,7 @@ GO
 CREATE PROCEDURE DbReset AS
 BEGIN
     DELETE FROM Favorites;
+    DELETE FROM Contacts;
     DELETE FROM Listings;
     DELETE FROM States;
     DELETE FROM BathroomTypes;
@@ -36,7 +37,7 @@ BEGIN
     VALUES ('00000000-0000-0000-0000-000000000000', 0, 0, 'test@test.com', 'OH', 0, 0, 0, 'test'),
            ('11111111-1111-1111-1111-111111111111', 0, 0, 'test2@test.com', 'OH', 0, 0, 0, 'test2');
 
-    -- we need to reseed the indentity column, so that it begins from 1 again
+    -- we need to reseed the identity column, so that it begins from 1 again
     DBCC CHECKIDENT ( 'Listings', RESEED , 1);
     SET IDENTITY_INSERT Listings ON;
     INSERT INTO Listings(ListingID, UserId, StateId, BathroomTypeId, Nickname, City, Rate, SquareFootage, HasElectric,
@@ -59,6 +60,10 @@ BEGIN
     INSERT INTO Favorites(ListingId, UserId)
     VALUES (1, '11111111-1111-1111-1111-111111111111'),
            (2, '11111111-1111-1111-1111-111111111111');
+
+    INSERT INTO Contacts(ListingId, UserId)
+    VALUES (1, '11111111-1111-1111-1111-111111111111'),
+           (3, '11111111-1111-1111-1111-111111111111');
 END
 GO
 

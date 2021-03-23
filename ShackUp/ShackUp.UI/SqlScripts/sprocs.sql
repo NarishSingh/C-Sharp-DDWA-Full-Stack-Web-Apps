@@ -2,6 +2,7 @@
 GO
 
 -- verify reset and data population
+/*
 SELECT *
 FROM States;
 SELECT *
@@ -11,6 +12,7 @@ FROM AspNetUsers;
 SELECT *
 FROM Listings;
 GO
+ */
 
 -- StatesSelectAll
 IF EXISTS(SELECT *
@@ -207,7 +209,7 @@ BEGIN
 END
 GO
 
--- FavoritesSelect
+-- ListingsSelectFavorites
 IF EXISTS(SELECT *
           FROM INFORMATION_SCHEMA.ROUTINES
           WHERE ROUTINE_NAME = 'ListingsSelectFavorites')
@@ -232,5 +234,30 @@ BEGIN
              INNER JOIN Listings L on L.ListingID = F.ListingId
              INNER JOIN BathroomTypes BT on BT.BathroomTypeId = L.BathroomTypeId
     WHERE F.UserId = @UserId
+END
+GO
+
+-- ListingsSelectContacts
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ListingsSelectContacts')
+    DROP PROCEDURE ListingsSelectContacts
+GO
+
+CREATE PROCEDURE ListingsSelectContacts(
+    @UserId NVARCHAR(128)
+) AS
+BEGIN
+    SELECT L.ListingID,
+           U.Email,
+           U.Id AS UserId,
+           L.Nickname,
+           L.City,
+           L.StateId,
+           L.Rate
+    FROM Listings L
+             INNER JOIN Contacts C ON L.ListingID = C.ListingId
+             INNER JOIN AspNetUsers U ON C.UserId = U.Id
+    WHERE L.UserId = @UserId
 END
 GO

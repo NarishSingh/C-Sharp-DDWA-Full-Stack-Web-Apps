@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using ShackUp.Data.Interfaces;
+using ShackUp.Models.Db;
 using ShackUp.Models.Queried;
 
 namespace ShackUp.Data.ADO
@@ -48,6 +49,45 @@ namespace ShackUp.Data.ADO
             }
 
             return faves;
+        }
+
+        public IEnumerable<ContactRequestItem> ReadContacts(string userId)
+        {
+            List<ContactRequestItem> listingContacts = new List<ContactRequestItem>();
+
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ListingsSelectContacts",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                
+                c.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        ContactRequestItem row = new ContactRequestItem
+                        {
+                            ListingId = (int) dr["ListingId"],
+                            UserId = dr["UserId"].ToString(),
+                            StateId = dr["StateId"].ToString(),
+                            City = dr["City"].ToString(),
+                            Rate = (decimal) dr["Rate"],
+                            Email = dr["Email"].ToString(),
+                            Nickname = dr["Nickname"].ToString(),
+                        };
+                        
+                        listingContacts.Add(row);
+                    }
+                }
+            }
+            
+            return listingContacts;
         }
     }
 }

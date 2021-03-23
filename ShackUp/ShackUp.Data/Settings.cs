@@ -4,7 +4,6 @@ namespace ShackUp.Data
 {
     public class Settings
     {
-        /*HELPERS*/
         /// <summary>
         /// Get the connection string from App.config
         /// </summary>

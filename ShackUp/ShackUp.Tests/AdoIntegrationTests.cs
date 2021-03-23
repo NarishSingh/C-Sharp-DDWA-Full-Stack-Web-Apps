@@ -13,7 +13,7 @@ using ShackUp.Models.Queried;
 namespace ShackUp.Tests
 {
     [TestFixture]
-    public class AdoIntegration
+    public class AdoIntegrationTests
     {
         [SetUp]
         public void Init()
@@ -257,6 +257,22 @@ namespace ShackUp.Tests
             Assert.AreEqual(true, favorites[0].HasHeat);
             Assert.AreEqual("None", favorites[0].BathroomTypeName);
             Assert.AreEqual(3, favorites[0].BathroomTypeId);
+        }
+
+        [Test]
+        public void ReadContacts()
+        {
+            IAccountRepo repo = new AccountRepoADO();
+            List<ContactRequestItem> contacts = repo.ReadContacts("00000000-0000-0000-0000-000000000000").ToList();
+            
+            Assert.AreEqual(2, contacts.Count);
+            
+            Assert.AreEqual("11111111-1111-1111-1111-111111111111", contacts[0].UserId);
+            Assert.AreEqual("OH", contacts[0].StateId);
+            Assert.AreEqual("Cleveland", contacts[0].City);
+            Assert.AreEqual(100M, contacts[0].Rate);
+            Assert.AreEqual("test2@test.com", contacts[0].Email);
+            Assert.AreEqual("Test shack 1", contacts[0].Nickname);
         }
     }
 }
