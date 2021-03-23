@@ -295,5 +295,22 @@ namespace ShackUp.Tests
             Assert.AreEqual("placeholder.png", listings[0].ImageFileName);
             Assert.AreEqual("None", listings[0].BathroomTypeName);
         }
+
+        [Test]
+        public void CreateDeleteFavorites()
+        {
+            string user = "11111111-1111-1111-1111-111111111111";
+            IAccountRepo repo = new AccountRepoADO();
+            
+            repo.CreateFavorite(user,3);
+            List<FavoriteItem> faves = repo.ReadFavorites(user).ToList();
+            
+            Assert.AreEqual(3, faves.Count);
+            
+            repo.DeleteFavorite(user, 2);
+            faves = repo.ReadFavorites(user).ToList();
+            
+            Assert.AreEqual(2, faves.Count);
+        }
     }
 }

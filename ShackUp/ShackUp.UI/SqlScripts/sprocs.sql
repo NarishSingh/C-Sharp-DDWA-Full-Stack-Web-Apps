@@ -291,3 +291,39 @@ BEGIN
     WHERE UserId = @UserId
 END
 GO
+
+-- FavoritesInsert
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'FavoritesInsert')
+    DROP PROCEDURE FavoritesInsert
+GO
+
+CREATE PROCEDURE FavoritesInsert(
+    @UserId NVARCHAR(128),
+    @ListingId INT
+) AS
+BEGIN
+    INSERT INTO Favorites(ListingId, UserId)
+    VALUES (@ListingId, @UserId);
+END
+GO
+
+-- FavoritesDelete
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'FavoritesDelete')
+    DROP PROCEDURE FavoritesDelete
+GO
+
+CREATE PROCEDURE FavoritesDelete(
+    @UserId NVARCHAR(128),
+    @ListingId INT
+) AS
+BEGIN
+    DELETE
+    FROM Favorites
+    WHERE UserId = @UserId
+      AND ListingId = @ListingId
+END
+GO

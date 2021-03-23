@@ -9,6 +9,25 @@ namespace ShackUp.Data.ADO
 {
     public class AccountRepoADO : IAccountRepo
     {
+        public void CreateFavorite(string userId, int listingId)
+        {
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "FavoritesInsert",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+                
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public IEnumerable<FavoriteItem> ReadFavorites(string userId)
         {
             List<FavoriteItem> faves = new List<FavoriteItem>();
@@ -136,6 +155,25 @@ namespace ShackUp.Data.ADO
             }
 
             return listings;
+        }
+
+        public void DeleteFavorite(string userId, int listingId)
+        {
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "FavoritesDelete",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+                
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
