@@ -204,7 +204,7 @@ BEGIN
            ImageFileName,
            L.ListingDescription
     FROM Listings L
-             inner join BathroomTypes BT on L.BathroomTypeId = BT.BathroomTypeId
+             INNER JOIN BathroomTypes BT ON L.BathroomTypeId = BT.BathroomTypeId
     WHERE ListingID = @ListingId
 END
 GO
@@ -259,5 +259,35 @@ BEGIN
              INNER JOIN Contacts C ON L.ListingID = C.ListingId
              INNER JOIN AspNetUsers U ON C.UserId = U.Id
     WHERE L.UserId = @UserId
+END
+GO
+
+-- ListingsSelectContacts
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ListingsSelectByUser')
+    DROP PROCEDURE ListingsSelectByUser
+GO
+
+CREATE PROCEDURE ListingsSelectByUser(
+    @UserId NVARCHAR(128)
+) AS
+BEGIN
+    SELECT ListingID,
+           UserId,
+           Nickname,
+           City,
+           StateId,
+           Rate,
+           SquareFootage,
+           HasElectric,
+           HasHeat,
+           L.BathroomTypeId,
+           BathroomTypeName,
+           ImageFileName,
+           L.ListingDescription
+    FROM Listings L
+             INNER JOIN BathroomTypes BT ON L.BathroomTypeId = BT.BathroomTypeId
+    WHERE UserId = @UserId
 END
 GO

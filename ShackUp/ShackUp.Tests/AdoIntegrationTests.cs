@@ -220,9 +220,9 @@ namespace ShackUp.Tests
         {
             IListingRepo repo = new ListingsRepoADO();
             ListingItem listing = repo.ReadDetailedListingById(1);
-            
+
             Assert.IsNotNull(listing);
-            
+
             Assert.AreEqual(1, listing.ListingId);
             Assert.AreEqual("00000000-0000-0000-0000-000000000000", listing.UserId);
             Assert.AreEqual("OH", listing.StateId);
@@ -242,7 +242,7 @@ namespace ShackUp.Tests
         public void ReadFavorites()
         {
             IAccountRepo repo = new AccountRepoADO();
-            
+
             var favorites = repo.ReadFavorites("11111111-1111-1111-1111-111111111111").ToList();
 
             Assert.AreEqual(2, favorites.Count);
@@ -264,15 +264,36 @@ namespace ShackUp.Tests
         {
             IAccountRepo repo = new AccountRepoADO();
             List<ContactRequestItem> contacts = repo.ReadContacts("00000000-0000-0000-0000-000000000000").ToList();
-            
+
             Assert.AreEqual(2, contacts.Count);
-            
+
             Assert.AreEqual("11111111-1111-1111-1111-111111111111", contacts[0].UserId);
             Assert.AreEqual("OH", contacts[0].StateId);
             Assert.AreEqual("Cleveland", contacts[0].City);
             Assert.AreEqual(100M, contacts[0].Rate);
             Assert.AreEqual("test2@test.com", contacts[0].Email);
             Assert.AreEqual("Test shack 1", contacts[0].Nickname);
+        }
+
+        [Test]
+        public void ReadListingsForUser()
+        {
+            IAccountRepo repo = new AccountRepoADO();
+            List<ListingItem> listings = repo.ReadListings("00000000-0000-0000-0000-000000000000").ToList();
+
+            Assert.AreEqual(6, listings.Count);
+
+            Assert.AreEqual(1, listings[0].ListingId);
+            Assert.AreEqual("OH", listings[0].StateId);
+            Assert.AreEqual(3, listings[0].BathroomTypeId);
+            Assert.AreEqual("Test shack 1", listings[0].Nickname);
+            Assert.AreEqual("Cleveland", listings[0].City);
+            Assert.AreEqual(100M, listings[0].Rate);
+            Assert.AreEqual(400M, listings[0].SquareFootage);
+            Assert.AreEqual(false, listings[0].HasElectric);
+            Assert.AreEqual(true, listings[0].HasHeat);
+            Assert.AreEqual("placeholder.png", listings[0].ImageFileName);
+            Assert.AreEqual("None", listings[0].BathroomTypeName);
         }
     }
 }

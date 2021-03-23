@@ -19,5 +19,12 @@ namespace ShackUp.Data.Interfaces
         /// <param name="userId">string for a user account id</param>
         /// <returns>IEnumerable of ContactRequestItem viewmodels</returns>
         IEnumerable<ContactRequestItem> ReadContacts(string userId);
+
+        /// <summary>
+        /// Read all listings for a user
+        /// </summary>
+        /// <param name="userId">string for a user account id</param>
+        /// <returns>IEnumerable of ListingItem viewmodels</returns>
+        IEnumerable<ListingItem> ReadListings(string userId);
     }
 }

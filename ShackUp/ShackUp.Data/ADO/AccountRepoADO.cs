@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using ShackUp.Data.Interfaces;
-using ShackUp.Models.Db;
 using ShackUp.Models.Queried;
 
 namespace ShackUp.Data.ADO
@@ -42,7 +42,7 @@ namespace ShackUp.Data.ADO
                             HasElectric = (bool) dr["HasElectric"],
                             HasHeat = (bool) dr["HasHeat"]
                         };
-                    
+
                         faves.Add(row);
                     }
                 }
@@ -64,7 +64,7 @@ namespace ShackUp.Data.ADO
                     CommandType = CommandType.StoredProcedure
                 };
                 cmd.Parameters.AddWithValue("@UserId", userId);
-                
+
                 c.Open();
 
                 using (SqlDataReader dr = cmd.ExecuteReader())
@@ -81,13 +81,61 @@ namespace ShackUp.Data.ADO
                             Email = dr["Email"].ToString(),
                             Nickname = dr["Nickname"].ToString(),
                         };
-                        
+
                         listingContacts.Add(row);
                     }
                 }
             }
-            
+
             return listingContacts;
+        }
+
+        public IEnumerable<ListingItem> ReadListings(string userId)
+        {
+            List<ListingItem> listings = new List<ListingItem>();
+
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ListingsSelectByUser",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                c.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        ListingItem row = new ListingItem
+                        {
+                            ListingId = (int) dr["ListingId"],
+                            UserId = dr["UserId"].ToString(),
+                            Nickname = dr["Nickname"].ToString(),
+                            StateId = dr["StateId"].ToString(),
+                            City = dr["City"].ToString(),
+                            Rate = (decimal) dr["Rate"],
+                            SquareFootage = (decimal) dr["SquareFootage"],
+                            HasElectric = (bool) dr["HasElectric"],
+                            HasHeat = (bool) dr["HasHeat"],
+                            BathroomTypeId = (int) dr["BathroomTypeId"],
+                            BathroomTypeName = dr["BathroomTypeName"].ToString()
+                        };
+
+                        if (dr["ImageFileName"] != DBNull.Value)
+                        {
+                            row.ImageFileName = dr["ImageFileName"].ToString();
+                        }
+
+                        listings.Add(row);
+                    }
+                }
+            }
+
+            return listings;
         }
     }
 }
