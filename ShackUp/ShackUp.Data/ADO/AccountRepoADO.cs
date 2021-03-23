@@ -21,7 +21,26 @@ namespace ShackUp.Data.ADO
                 };
                 cmd.Parameters.AddWithValue("@UserId", userId);
                 cmd.Parameters.AddWithValue("@ListingId", listingId);
-                
+
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void CreateContact(string userId, int listingId)
+        {
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ContactsInsert",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+
                 c.Open();
 
                 cmd.ExecuteNonQuery();
@@ -169,7 +188,26 @@ namespace ShackUp.Data.ADO
                 };
                 cmd.Parameters.AddWithValue("@UserId", userId);
                 cmd.Parameters.AddWithValue("@ListingId", listingId);
-                
+
+                c.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteContact(string userId, int listingId)
+        {
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ContactsDelete",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+
                 c.Open();
 
                 cmd.ExecuteNonQuery();

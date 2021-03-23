@@ -13,6 +13,13 @@ namespace ShackUp.Data.Interfaces
         void CreateFavorite(string userId, int listingId);
 
         /// <summary>
+        /// Create a contact for user
+        /// </summary>
+        /// <param name="userId">string for a user account id</param>
+        /// <param name="listingId">int for a existing listing</param>
+        void CreateContact(string userId, int listingId);
+
+        /// <summary>
         /// Read all favorited shacks for user
         /// </summary>
         /// <param name="userId">string for a user account id</param>
@@ -39,5 +46,12 @@ namespace ShackUp.Data.Interfaces
         /// <param name="userId">string for a user account id</param>
         /// <param name="listingId">int for a existing listing</param>
         void DeleteFavorite(string userId, int listingId);
+
+        /// <summary>
+        /// Delete a contact for user
+        /// </summary>
+        /// <param name="userId">string for a user account id</param>
+        /// <param name="listingId">int for a existing listing</param>
+        void DeleteContact(string userId, int listingId);
     }
 }

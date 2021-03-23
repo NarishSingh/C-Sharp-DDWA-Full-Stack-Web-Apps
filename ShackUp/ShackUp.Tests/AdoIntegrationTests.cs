@@ -301,16 +301,34 @@ namespace ShackUp.Tests
         {
             string user = "11111111-1111-1111-1111-111111111111";
             IAccountRepo repo = new AccountRepoADO();
-            
-            repo.CreateFavorite(user,3);
+
+            repo.CreateFavorite(user, 3);
             List<FavoriteItem> faves = repo.ReadFavorites(user).ToList();
-            
+
             Assert.AreEqual(3, faves.Count);
-            
+
             repo.DeleteFavorite(user, 2);
             faves = repo.ReadFavorites(user).ToList();
-            
+
             Assert.AreEqual(2, faves.Count);
+        }
+
+        [Test]
+        public void CreateDeleteContacts()
+        {
+            string contactID = "11111111-1111-1111-1111-111111111111";
+            string user = "00000000-0000-0000-0000-000000000000";
+            IAccountRepo repo = new AccountRepoADO();
+
+            repo.CreateContact(contactID, 5);
+            List<ContactRequestItem> contacts = repo.ReadContacts(user).ToList();
+
+            Assert.AreEqual(3, contacts.Count);
+
+            repo.DeleteContact(contactID, 3);
+            contacts = repo.ReadContacts(user).ToList();
+
+            Assert.AreEqual(2, contacts.Count);
         }
     }
 }

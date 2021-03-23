@@ -327,3 +327,39 @@ BEGIN
       AND ListingId = @ListingId
 END
 GO
+
+-- ContactsInsert
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ContactsInsert')
+    DROP PROCEDURE ContactsInsert
+GO
+
+CREATE PROCEDURE ContactsInsert(
+    @UserId NVARCHAR(128),
+    @ListingId INT
+) AS
+BEGIN
+    INSERT INTO Contacts(ListingId, UserId)
+    VALUES (@ListingId, @UserId);
+END
+GO
+
+-- ContactsDelete
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ContactsDelete')
+    DROP PROCEDURE ContactsDelete
+GO
+
+CREATE PROCEDURE ContactsDelete(
+    @UserId NVARCHAR(128),
+    @ListingId INT
+) AS
+BEGIN
+    DELETE
+    FROM Contacts
+    WHERE UserId = @UserId
+      AND ListingId = @ListingId
+END
+GO
