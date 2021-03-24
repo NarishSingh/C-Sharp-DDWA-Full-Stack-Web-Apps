@@ -7,5 +7,10 @@ namespace ShackUp.UI.Models.Identity
         public ShackUpDbContext() : base("ShackUp")
         {
         }
+        
+        public static ShackUpDbContext Create()
+        {
+            return new ShackUpDbContext();
+        }
     }
 }
