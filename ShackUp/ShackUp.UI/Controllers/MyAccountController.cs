@@ -4,6 +4,7 @@ using ShackUp.UI.Models;
 using ShackUp.UI.Utilities;
 using System.Web;
 using System.Web.Mvc;
+using ShackUp.Data.Factories;
 using ShackUp.UI.App_Start;
 
 namespace ShackUp.UI.Controllers
@@ -25,7 +26,7 @@ namespace ShackUp.UI.Controllers
             var userId = AuthorizeUtilities.GetUserId(this);
 
             var repo = AccountRepositoryFactory.GetRepository();
-            var model = repo.GetListings(userId);
+            var model = repo.ReadListings(userId);
             return View(model);
         }
 
@@ -34,7 +35,7 @@ namespace ShackUp.UI.Controllers
             var userId = AuthorizeUtilities.GetUserId(this);
 
             var repo = AccountRepositoryFactory.GetRepository();
-            var model = repo.GetFavorites(userId);
+            var model = repo.ReadFavorites(userId);
             return View(model);
         }
 
@@ -44,7 +45,7 @@ namespace ShackUp.UI.Controllers
             var userId = AuthorizeUtilities.GetUserId(this);
 
             var repo = AccountRepositoryFactory.GetRepository();
-            repo.RemoveFavorite(userId, ListingId);
+            repo.DeleteFavorite(userId, ListingId);
 
             return RedirectToAction("Favorites");
         }
@@ -54,7 +55,7 @@ namespace ShackUp.UI.Controllers
             var userId = AuthorizeUtilities.GetUserId(this);
 
             var repo = AccountRepositoryFactory.GetRepository();
-            var model = repo.GetContacts(userId);
+            var model = repo.ReadContacts(userId);
             return View(model);
         }
 
@@ -62,7 +63,7 @@ namespace ShackUp.UI.Controllers
         {
             var model = new UpdateAccountViewModel();
             var statesRepo = StatesRepositoryFactory.GetRepository();
-            model.States = new SelectList(statesRepo.GetAll(), "StateId", "StateId");
+            model.States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId");
             model.EmailAddress = User.Identity.Name;
 
             return View(model);

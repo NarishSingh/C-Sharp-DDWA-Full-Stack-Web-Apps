@@ -13,12 +13,8 @@ namespace ShackUp.Data.ADO
         {
             List<State> states = new List<State>();
             
-            using (SqlConnection c = new SqlConnection())
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
-                c.ConnectionString = ConfigurationManager
-                    .ConnectionStrings["ShackUp"]
-                    .ConnectionString;
-
                 SqlCommand cmd = new SqlCommand
                 {
                     CommandText = "StatesSelectAll",

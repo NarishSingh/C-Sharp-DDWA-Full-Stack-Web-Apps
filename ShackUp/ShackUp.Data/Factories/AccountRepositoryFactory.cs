@@ -1,0 +1,20 @@
+﻿using System;
+using ShackUp.Data.ADO;
+using ShackUp.Data.Interfaces;
+
+namespace ShackUp.Data.Factories
+{
+    public static class AccountRepositoryFactory
+    {
+        public static IAccountRepo GetRepository()
+        {
+            switch (Settings.GetRepositoryType())
+            {
+                case "ADO":
+                    return new AccountRepoADO();
+                default:
+                    throw new Exception("Could not find valid RepositoryType configuration value.");
+            }
+        }
+    }
+}

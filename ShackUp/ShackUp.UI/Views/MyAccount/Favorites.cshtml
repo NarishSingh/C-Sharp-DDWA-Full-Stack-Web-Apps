@@ -44,7 +44,7 @@
                     @foreach (var listing in Model)
                     {
                         <tr>
-                            <td>@($"{listing.City}, {listing.StateId}")</td>
+                            <td>@string.Format("{0}, {1}", listing.City, listing.StateId)</td>
                             <td>@listing.Rate.ToString("c")</td>
                             <td>@listing.SquareFootage sq ft</td>
                             <td>
