@@ -43,18 +43,18 @@ BEGIN
     INSERT INTO Listings(ListingID, UserId, StateId, BathroomTypeId, Nickname, City, Rate, SquareFootage, HasElectric,
                          HasHeat, ImageFileName, ListingDescription)
     VALUES (1, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 1', 'Cleveland', 100, 400, 0, 1,
-            'placeholder.png', 'Description'),
+            'placeholder.jpg', 'Description'),
            (2, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 2', 'Cleveland', 110, 410, 0, 1,
-            'placeholder.png', null),
+            'placeholder.jpg', null),
            (3, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 3', 'Cleveland', 120, 420, 0, 1,
-            'placeholder.png', null),
+            'placeholder.jpg', null),
            (4, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 4', 'Cleveland', 130, 430, 0, 1,
-            'placeholder.png',
+            'placeholder.jpg',
             'Experience the chill of Cleveland winters in this leaky shack.  Poorly insulated and weather worn, you will truly appreciate returning home from your stay here.'),
            (5, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 5', 'Columbus', 140, 440, 0, 1,
-            'placeholder.png', null),
+            'placeholder.jpg', null),
            (6, '00000000-0000-0000-0000-000000000000', 'OH', 3, 'Test shack 6', 'Cleveland', 150, 450, 0, 1,
-            'placeholder.png', null)
+            'placeholder.jpg', null)
     SET IDENTITY_INSERT Listings OFF;
 
     INSERT INTO Favorites(ListingId, UserId)

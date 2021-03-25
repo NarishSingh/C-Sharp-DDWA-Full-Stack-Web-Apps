@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.recentListing{
+    text-align: center;
+}

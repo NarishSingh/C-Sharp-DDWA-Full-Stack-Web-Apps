@@ -12,6 +12,8 @@ namespace ShackUp.Data.Factories
             {
                 case "ADO":
                     return new StatesRepoADO();
+                case "Dapper":
+                    throw new NotImplementedException("TODO");
                 default:
                     throw new Exception("Could not find valid RepositoryType configuration value.");
             }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using ShackUp.Data.Factories;
+using ShackUp.Models.Queried;
 
 namespace ShackUp.UI.Controllers
 {
@@ -10,19 +9,8 @@ namespace ShackUp.UI.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-            return View();
+            IEnumerable<ListingShortItem> model = ListingRepositoryFactory.GetRepository().ReadAllRecent();
+            return View(model);
         }
     }
 }
