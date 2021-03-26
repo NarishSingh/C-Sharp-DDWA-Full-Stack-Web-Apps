@@ -1,0 +1,162 @@
+﻿@using System.Web.UI.WebControls
+@model ShackUp.Models.Queried.ListingItem
+
+@{
+    ViewBag.Title = "Listing Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Listing Details</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4">
+        <img src="@Url.Content("~/Images/" + Model.ImageFileName)" alt="Shack Image" height="200px">
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-8">
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <strong>Location:</strong>
+                </td>
+                <td>@Model.City, @Model.StateId</td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Rate:</strong>
+                </td>
+                <td>@Model.Rate.ToString("C") / Night</td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Size:</strong>
+                </td>
+                <td>@Model.SquareFootage sq. ft.</td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Electric:</strong>
+                </td>
+                <td>
+                    @if (Model.HasElectric)
+                    {
+                        <text>Yes</text>
+                    }
+                    else
+                    {
+                        <text>No</text>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Heat:</strong>
+                </td>
+                <td>
+                    @if (Model.HasHeat)
+                    {
+                        <text>Yes</text>
+                    }
+                    else
+                    {
+                        <text>No</text>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Bathroom:</strong>
+                </td>
+                <td>@Model.BathroomTypeName</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>@Model.ListingDescription</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            @if (Request.IsAuthenticated)
+            {
+                <button id="btnContact" class="btn btn-default" onclick="addContact()">
+                    Contact Owner
+                </button>
+            }
+            else
+            {
+                <button id="btnFavorite" class="btn btn-default" onclick="toggleFavorite()">Add to Favorites</button>
+            }
+        </p>
+        <p id="statusMsg">
+
+        </p>
+    </div>
+</div>
+@section scripts
+{
+    @if (Request.IsAuthenticated)
+    {
+        <script>
+        let userId = '@ViewBag.UserId';
+        let listingId = @Model.ListingId;
+        let isFave = false;
+        
+        //main
+        $(document).ready(function() {
+          checkIfContact();
+          checkIfFave();
+        });
+        
+        //functions
+        function checkIfFave() {
+            $.ajax({
+              type: 'GET',
+              url: 'http://localhost:55178/api/favorite/check/' + userId + '/' + listingId,
+              success: function(response) {
+                if (response === true){
+                    isFave = true;
+                    $('#btnFavorite').html('Remove from Favorites')
+                        .removeClass('btn-default')
+                        .addClass('btn-danger');
+                }
+              },
+              error: function() {
+                $('#statusMsg').removeClass('bg-success')
+                    .addClass('bg-danger')
+                    .text('Could not check favorite!');
+              }
+            });
+        }
+        
+        function checkIfContact() {
+          $.ajax({
+            type: 'GET',
+            url:'http://localhost:55178/api/contact/check/' + userId + '/' + listingId,
+            success: function(response) {
+              if (response === true){
+                    $('#btnContact').hide();
+                  }
+            },
+            error: function() {
+              $('#statusMsg').removeClass('bg-success')
+                .addClass('bg-danger')
+                .text('Could not check contact!');
+            }
+          });
+        }
+        
+        function addContact() {
+          
+        }
+        </script>
+    }
+}
