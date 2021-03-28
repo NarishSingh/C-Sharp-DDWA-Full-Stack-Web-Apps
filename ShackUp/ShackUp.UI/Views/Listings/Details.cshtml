@@ -1,5 +1,4 @@
-﻿@using System.Web.UI.WebControls
-@model ShackUp.Models.Queried.ListingItem
+﻿@model ShackUp.Models.Queried.ListingItem
 
 @{
     ViewBag.Title = "Listing Details";
@@ -87,13 +86,12 @@
         <p>
             @if (Request.IsAuthenticated)
             {
-                <button id="btnContact" class="btn btn-default" onclick="addContact()">
-                    Contact Owner
-                </button>
+                <button id="btnContact" class="btn btn-default" onclick="addContact()">Contact Owner</button>
+                <button id="btnFavorite" class="btn btn-default" onclick="toggleFavorite()">Add to Favorites</button>
             }
             else
             {
-                <button id="btnFavorite" class="btn btn-default" onclick="toggleFavorite()">Add to Favorites</button>
+                <text>@Html.ActionLink("Register", "Register", "Account") to contact the owner today!</text>
             }
         </p>
         <p id="statusMsg">
@@ -101,6 +99,7 @@
         </p>
     </div>
 </div>
+
 @section scripts
 {
     @if (Request.IsAuthenticated)
@@ -120,9 +119,9 @@
         function checkIfFave() {
             $.ajax({
               type: 'GET',
-              url: 'http://localhost:55178/api/favorite/check/' + userId + '/' + listingId,
+              url: 'http://localhost:5000/api/favorite/check/' + userId + '/' + listingId,
               success: function(response) {
-                if (response === true){
+                if (response == true){
                     isFave = true;
                     $('#btnFavorite').html('Remove from Favorites')
                         .removeClass('btn-default')
@@ -140,11 +139,11 @@
         function checkIfContact() {
           $.ajax({
             type: 'GET',
-            url:'http://localhost:55178/api/contact/check/' + userId + '/' + listingId,
+            url:'http://localhost:5000/api/contact/check/' + userId + '/' + listingId,
             success: function(response) {
-              if (response === true){
+              if (response == true){
                     $('#btnContact').hide();
-                  }
+              }
             },
             error: function() {
               $('#statusMsg').removeClass('bg-success')
@@ -155,7 +154,77 @@
         }
         
         function addContact() {
-          
+            $.ajax({
+                type: 'POST',
+                url:'http://localhost:5000/api/contact/add/' + userId + '/' + listingId,
+                success: function() {
+                    $('#btnContact').hide();
+                    
+                    $('#statusMsg').removeClass('bg-danger')
+                        .addClass('bg-success')
+                        .text('Contact requested!');
+                },
+                error: function() {
+                  $('#statusMsg').removeClass('bg-success')
+                         .addClass('bg-danger')
+                         .text('Could not add contact!');
+                }
+            });
+        }
+        
+        function toggleFavorite() {
+            if (isFave == true){
+              removeFavorite();
+            }
+            else {
+              addFavorite();
+            }
+        }
+        
+        function addFavorite() {
+            $.ajax({
+                type: 'POST',
+                url:'http://localhost:5000/api/favorite/add/' + userId + '/' + listingId,
+                success: function() {
+                    $('#btnFavorite').html('Remove from Favorites')
+                        .removeClass('btn-default')
+                        .addClass('btn-danger');
+                    
+                    $('#statusMsg').removeClass('bg-danger')
+                        .addClass('bg-success')
+                        .text('Favorite added!');
+                    
+                    isFave = true;
+                },
+                error: function() {
+                    $('#statusMessage').removeClass('bg-success')
+                        .addClass('bg-danger')
+                        .text('Could not add favorite!');
+                }
+            });
+        }
+        
+        function removeFavorite() {
+            $.ajax({
+                type: 'DELETE',
+                url:'http://localhost:5000/api/favorite/remove/' + userId + '/' + listingId,
+                success: function() {                      
+                    $('#btnFavorite').html('Add to Favorites')
+                        .removeClass('btn-danger')
+                        .addClass('btn-default');
+                    
+                    $('#statusMessage').removeClass('bg-danger')
+                        .addClass('bg-success')
+                        .text('Favorite removed!');
+                    
+                    isFave = false;
+                },
+                error: function() {
+                    $('#statusMessage').removeClass('bg-success')
+                    .addClass('bg-danger')
+                    .text('Could not remove favorite!');
+                }
+            });
         }
         </script>
     }
