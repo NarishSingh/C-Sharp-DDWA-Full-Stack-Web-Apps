@@ -111,46 +111,46 @@
         
         //main
         $(document).ready(function() {
-          checkIfContact();
-          checkIfFave();
+            checkIfContact();
+            checkIfFave();
         });
         
         //functions
         function checkIfFave() {
             $.ajax({
-              type: 'GET',
-              url: 'http://localhost:5000/api/favorite/check/' + userId + '/' + listingId,
-              success: function(response) {
-                if (response === true){
-                    isFave = true;
-                    $('#btnFavorite').html('Remove from Favorites')
-                        .removeClass('btn-default')
-                        .addClass('btn-danger');
-                }
-              },
-              error: function() {
-                $('#statusMsg').removeClass('bg-success')
-                    .addClass('bg-danger')
-                    .text('Could not check favorite!');
-              }
+                type: 'GET',
+                url: 'http://localhost:5000/api/favorite/check/' + userId + '/' + listingId,
+                success: function(response) {
+                    if (response === true){
+                        isFave = true;
+                        $('#btnFavorite').html('Remove from Favorites')
+                            .removeClass('btn-default')
+                            .addClass('btn-danger');
+                    }
+                },
+                error: function() {
+                    $('#statusMsg').removeClass('bg-success')
+                        .addClass('bg-danger')
+                        .text('Could not check favorite!');
+                    }
             });
         }
         
         function checkIfContact() {
-          $.ajax({
-            type: 'GET',
-            url:'http://localhost:5000/api/contact/check/' + userId + '/' + listingId,
-            success: function(response) {
-              if (response === true){
+            $.ajax({
+                type: 'GET',
+                url:'http://localhost:5000/api/contact/check/' + userId + '/' + listingId,
+                success: function(response) {
+                    if (response === true){
                     $('#btnContact').hide();
-              }
-            },
-            error: function() {
-              $('#statusMsg').removeClass('bg-success')
-                .addClass('bg-danger')
-                .text('Could not check contact!');
-            }
-          });
+                    }
+                },
+                error: function() {
+                    $('#statusMsg').removeClass('bg-success')
+                    .addClass('bg-danger')
+                    .text('Could not check contact!');
+                }
+            });
         }
         
         function addContact() {
@@ -174,10 +174,10 @@
         
         function toggleFavorite() {
             if (isFave === true){
-              removeFavorite();
+                removeFavorite();
             }
             else {
-              addFavorite();
+                addFavorite();
             }
         }
         
