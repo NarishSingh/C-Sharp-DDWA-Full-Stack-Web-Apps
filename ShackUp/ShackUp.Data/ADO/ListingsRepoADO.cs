@@ -21,7 +21,7 @@ namespace ShackUp.Data.ADO
                     CommandType = CommandType.StoredProcedure
                 };
 
-                //ouput param
+                //output param
                 SqlParameter param = new SqlParameter("@ListingId", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -236,6 +236,23 @@ namespace ShackUp.Data.ADO
 
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public IEnumerable<ListingShortItem> Search(ListingSearchParameters param)
+        {
+            throw new NotImplementedException();
+            /*
+            List<ListingShortItem> listings = new List<ListingShortItem>();
+
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "",
+                }
+            }
+            */
         }
     }
 }

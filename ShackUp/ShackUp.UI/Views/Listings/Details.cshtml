@@ -121,7 +121,7 @@
               type: 'GET',
               url: 'http://localhost:5000/api/favorite/check/' + userId + '/' + listingId,
               success: function(response) {
-                if (response == true){
+                if (response === true){
                     isFave = true;
                     $('#btnFavorite').html('Remove from Favorites')
                         .removeClass('btn-default')
@@ -141,7 +141,7 @@
             type: 'GET',
             url:'http://localhost:5000/api/contact/check/' + userId + '/' + listingId,
             success: function(response) {
-              if (response == true){
+              if (response === true){
                     $('#btnContact').hide();
               }
             },
@@ -173,7 +173,7 @@
         }
         
         function toggleFavorite() {
-            if (isFave == true){
+            if (isFave === true){
               removeFavorite();
             }
             else {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Http;
-using System.Web.Http.Results;
 using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
+using ShackUp.Models.Queried;
 
 namespace ShackUp.UI.Controllers
 {
@@ -145,7 +145,6 @@ namespace ShackUp.UI.Controllers
             }
         }
         
-        /*
         [Route("api/listings/search")]
         [AcceptVerbs("GET")]
         public IHttpActionResult Search(decimal? minRate, decimal? maxRate, string city, string stateId)
@@ -154,7 +153,7 @@ namespace ShackUp.UI.Controllers
 
             try
             {
-                ListingSearchParameters p = new ListingSearchParameters()
+                ListingSearchParameters p = new ListingSearchParameters
                 {
                     MinRate = minRate,
                     MaxRate = maxRate,
@@ -169,6 +168,5 @@ namespace ShackUp.UI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        */
     }
 }

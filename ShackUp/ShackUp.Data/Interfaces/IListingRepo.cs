@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using ShackUp.Models.Db;
 using ShackUp.Models.Queried;
 
@@ -43,5 +45,12 @@ namespace ShackUp.Data.Interfaces
         /// </summary>
         /// <param name="listingId">int for a valid id</param>
         void DeleteListing(int listingId);
+
+        /// <summary>
+        /// Search for a listing
+        /// </summary>
+        /// <param name="param">ListingSearchParameters viewmodel</param>
+        /// <returns>IEnumerable of ListingShortItem viewmodels</returns>
+        IEnumerable<ListingShortItem> Search(ListingSearchParameters param);
     }
 }

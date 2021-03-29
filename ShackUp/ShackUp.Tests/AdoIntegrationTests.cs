@@ -84,7 +84,7 @@ namespace ShackUp.Tests
             Assert.AreEqual(400, l.SquareFootage);
             Assert.AreEqual(false, l.HasElectric);
             Assert.AreEqual(true, l.HasHeat);
-            Assert.AreEqual("placeholder.png", l.ImageFileName);
+            Assert.AreEqual("placeholder.jpg", l.ImageFileName);
             Assert.AreEqual("Description", l.ListingDescription);
         }
 
@@ -212,7 +212,7 @@ namespace ShackUp.Tests
             Assert.AreEqual(150M, listings[0].Rate);
             Assert.AreEqual("Cleveland", listings[0].City);
             Assert.AreEqual("OH", listings[0].StateId);
-            Assert.AreEqual("placeholder.png", listings[0].ImageFileName);
+            Assert.AreEqual("placeholder.jpg", listings[0].ImageFileName);
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace ShackUp.Tests
             Assert.AreEqual(400M, listing.SquareFootage);
             Assert.AreEqual(false, listing.HasElectric);
             Assert.AreEqual(true, listing.HasHeat);
-            Assert.AreEqual("placeholder.png", listing.ImageFileName);
+            Assert.AreEqual("placeholder.jpg", listing.ImageFileName);
             Assert.AreEqual("None", listing.BathroomTypeName);
             Assert.AreEqual("Description", listing.ListingDescription);
         }
@@ -292,7 +292,7 @@ namespace ShackUp.Tests
             Assert.AreEqual(400M, listings[0].SquareFootage);
             Assert.AreEqual(false, listings[0].HasElectric);
             Assert.AreEqual(true, listings[0].HasHeat);
-            Assert.AreEqual("placeholder.png", listings[0].ImageFileName);
+            Assert.AreEqual("placeholder.jpg", listings[0].ImageFileName);
             Assert.AreEqual("None", listings[0].BathroomTypeName);
         }
 
@@ -329,6 +329,32 @@ namespace ShackUp.Tests
             contacts = repo.ReadContacts(user).ToList();
 
             Assert.AreEqual(2, contacts.Count);
+        }
+
+        [Test]
+        public void CanDetectContact()
+        {
+            IAccountRepo repo = new AccountRepoADO();
+            string userId = "11111111-1111-1111-1111-111111111111";
+
+            bool found = repo.IsContact(userId, 1);
+            Assert.IsTrue(found);
+
+            found = repo.IsContact(userId, 10);
+            Assert.IsFalse(found);
+        }
+
+        [Test]
+        public void CanDetectFavorites()
+        {
+            IAccountRepo repo = new AccountRepoADO();
+            string userId = "11111111-1111-1111-1111-111111111111";
+
+            bool found = repo.IsFavorite(userId, 2);
+            Assert.IsTrue(found);
+
+            found = repo.IsFavorite(userId, 10);
+            Assert.IsFalse(found);
         }
     }
 }
