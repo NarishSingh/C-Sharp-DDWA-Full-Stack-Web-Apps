@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using ShackUp.UI.Models;
 using ShackUp.UI.Utilities;
 using System.Web;
 using System.Web.Mvc;
 using ShackUp.Data.Factories;
+using ShackUp.Data.Interfaces;
+using ShackUp.Models.Queried;
 using ShackUp.UI.App_Start;
+using ShackUp.UI.Models.Identity;
 
 namespace ShackUp.UI.Controllers
 {
@@ -23,28 +27,28 @@ namespace ShackUp.UI.Controllers
         // GET: MyAccount
         public ActionResult Index()
         {
-            var userId = AuthorizeUtilities.GetUserId(this);
+            string userId = AuthorizeUtilities.GetUserId(this);
 
-            var repo = AccountRepositoryFactory.GetRepository();
-            var model = repo.ReadListings(userId);
+            IAccountRepo repo = AccountRepositoryFactory.GetRepository();
+            IEnumerable<ListingItem> model = repo.ReadListings(userId);
             return View(model);
         }
 
         public ActionResult Favorites()
         {
-            var userId = AuthorizeUtilities.GetUserId(this);
+            string userId = AuthorizeUtilities.GetUserId(this);
 
-            var repo = AccountRepositoryFactory.GetRepository();
-            var model = repo.ReadFavorites(userId);
+            IAccountRepo repo = AccountRepositoryFactory.GetRepository();
+            IEnumerable<FavoriteItem> model = repo.ReadFavorites(userId);
             return View(model);
         }
 
         [HttpPost]
         public ActionResult DeleteFavorite(int listingId)
         {
-            var userId = AuthorizeUtilities.GetUserId(this);
+            string userId = AuthorizeUtilities.GetUserId(this);
 
-            var repo = AccountRepositoryFactory.GetRepository();
+            IAccountRepo repo = AccountRepositoryFactory.GetRepository();
             repo.DeleteFavorite(userId, listingId);
 
             return RedirectToAction("Favorites");
@@ -52,19 +56,21 @@ namespace ShackUp.UI.Controllers
 
         public ActionResult Contacts()
         {
-            var userId = AuthorizeUtilities.GetUserId(this);
+            string userId = AuthorizeUtilities.GetUserId(this);
 
-            var repo = AccountRepositoryFactory.GetRepository();
-            var model = repo.ReadContacts(userId);
+            IAccountRepo repo = AccountRepositoryFactory.GetRepository();
+            IEnumerable<ContactRequestItem> model = repo.ReadContacts(userId);
             return View(model);
         }
 
         public ActionResult UpdateAccount()
         {
-            var model = new UpdateAccountViewModel();
-            var statesRepo = StatesRepositoryFactory.GetRepository();
-            model.States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId");
-            model.EmailAddress = User.Identity.Name;
+            IStatesRepo statesRepo = StatesRepositoryFactory.GetRepository();
+            UpdateAccountViewModel model = new UpdateAccountViewModel
+            {
+                States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId"),
+                EmailAddress = User.Identity.Name
+            };
 
             return View(model);
         }
@@ -72,7 +78,7 @@ namespace ShackUp.UI.Controllers
         [HttpPost]
         public ActionResult UpdateAccount(UpdateAccountViewModel model)
         {
-            var currentUser = UserManager.FindByEmail(User.Identity.Name);
+            AppUser currentUser = UserManager.FindByEmail(User.Identity.Name);
             currentUser.UserName = model.EmailAddress;
             currentUser.Email = model.EmailAddress;
             currentUser.StateId = model.StateId;
