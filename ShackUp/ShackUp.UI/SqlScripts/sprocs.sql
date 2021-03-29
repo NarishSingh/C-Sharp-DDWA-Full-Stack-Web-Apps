@@ -363,3 +363,41 @@ BEGIN
       AND ListingId = @ListingId
 END
 GO
+
+-- ContactsSelect
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'ContactsSelect')
+    DROP PROCEDURE ContactsSelect
+GO
+
+CREATE PROCEDURE ContactsSelect(
+    @UserId NVARCHAR(128),
+    @ListingId INT
+) AS
+BEGIN
+    SELECT UserId, ListingId
+    FROM Contacts
+    WHERE UserId = @UserId
+      AND ListingId = @ListingId
+END
+GO
+
+-- FavoritesSelect
+IF EXISTS(SELECT *
+          FROM INFORMATION_SCHEMA.ROUTINES
+          WHERE ROUTINE_NAME = 'FavoritesSelect')
+    DROP PROCEDURE FavoritesSelect
+GO
+
+CREATE PROCEDURE FavoritesSelect(
+    @UserId NVARCHAR(128),
+    @ListingId INT
+) AS
+BEGIN
+    SELECT UserId, ListingId
+    FROM Favorites
+    WHERE UserId = @UserId
+      AND ListingId = @ListingId
+END
+GO

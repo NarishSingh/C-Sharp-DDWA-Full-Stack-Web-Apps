@@ -53,5 +53,21 @@ namespace ShackUp.Data.Interfaces
         /// <param name="userId">string for a user account id</param>
         /// <param name="listingId">int for a existing listing</param>
         void DeleteContact(string userId, int listingId);
+
+        /// <summary>
+        /// Verify a contact for account
+        /// </summary>
+        /// <param name="userId">string for user id</param>
+        /// <param name="listingId">int for the listing id of the intended contact</param>
+        /// <returns>true if is a contact, false otherwise</returns>
+        bool IsContact(string userId, int listingId);
+        
+        /// <summary>
+        /// Verify a favorite listing for account
+        /// </summary>
+        /// <param name="userId">string for user id</param>
+        /// <param name="listingId">int for the listing id of the intended contact</param>
+        /// <returns>true if is a contact, false otherwise</returns>
+        bool IsFavorite(string userId, int listingId);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.Results;
 using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
-using ShackUp.Models.Queried;
 
 namespace ShackUp.UI.Controllers
 {
@@ -12,7 +12,28 @@ namespace ShackUp.UI.Controllers
     public class ListingsApiController : ApiController
     {
         /*CONTACTS*/
-        
+        /// <summary>
+        /// Check if a contact exists for user to listing in view
+        /// </summary>
+        /// <param name="userId">string for the user id of account</param>
+        /// <param name="listingId">int for the listing id</param>
+        /// <returns>IHttpActionResult 200 OK for successful read, 400 Bad Request if failed</returns>
+        [Route("api/contact/check/{userId}/{listingId}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult CheckContact(string userId, int listingId)
+        {
+            IAccountRepo repo = AccountRepositoryFactory.GetRepository();
+
+            try
+            {
+                bool result = repo.IsContact(userId, listingId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         
         /// <summary>
         /// Add a new contact to account
@@ -61,6 +82,23 @@ namespace ShackUp.UI.Controllers
         }
 
         /*FAVORITES*/
+        [Route("api/favorite/check/{userId}/{listingId}")]
+        [AcceptVerbs("GET")]
+        public IHttpActionResult CheckFavorite(string userId, int listingId)
+        {
+            IAccountRepo repo = AccountRepositoryFactory.GetRepository();
+
+            try
+            {
+                bool result = repo.IsFavorite(userId, listingId);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
         /// <summary>
         /// Add a favorite listing to account
         /// </summary>

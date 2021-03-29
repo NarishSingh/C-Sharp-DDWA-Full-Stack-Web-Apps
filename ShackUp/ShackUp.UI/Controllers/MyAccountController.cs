@@ -40,12 +40,12 @@ namespace ShackUp.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteFavorite(int ListingId)
+        public ActionResult DeleteFavorite(int listingId)
         {
             var userId = AuthorizeUtilities.GetUserId(this);
 
             var repo = AccountRepositoryFactory.GetRepository();
-            repo.DeleteFavorite(userId, ListingId);
+            repo.DeleteFavorite(userId, listingId);
 
             return RedirectToAction("Favorites");
         }

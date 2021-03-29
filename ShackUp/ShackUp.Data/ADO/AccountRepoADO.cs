@@ -213,5 +213,50 @@ namespace ShackUp.Data.ADO
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public bool IsContact(string userId, int listingId)
+        {
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "ContactsSelect",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                
+                c.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    return dr.Read();
+                }
+            }
+        }
+
+        public bool IsFavorite(string userId, int listingId)
+        {
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = c,
+                    CommandText = "FavoritesSelect",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("@ListingId", listingId);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                
+                c.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    return dr.Read();
+                }
+            }
+        }
     }
 }
