@@ -11,6 +11,15 @@ namespace ShackUp.UI.Controllers
     /// </summary>
     public class ListingsApiController : ApiController
     {
+        /*CONTACTS*/
+        
+        
+        /// <summary>
+        /// Add a new contact to account
+        /// </summary>
+        /// <param name="userId">string for the user id of account</param>
+        /// <param name="listingId">int for the listing id</param>
+        /// <returns>IHttpActionResult 200 OK for successful creation, 400 Bad Request if failed</returns>
         [Route("api/contact/add/{userId}/{listingId}")]
         [AcceptVerbs("POST")]
         public IHttpActionResult AddContact(string userId, int listingId)
@@ -28,6 +37,12 @@ namespace ShackUp.UI.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a contact from account
+        /// </summary>
+        /// <param name="userId">string for the user id of account</param>
+        /// <param name="listingId">int for the listing id</param>
+        /// <returns>IHttpActionResult 200 OK for successful deletion, 400 Bad Request if failed</returns>
         [Route("api/contact/remove/{userId}/{listingId}")]
         [AcceptVerbs("DELETE")]
         public IHttpActionResult RemoveContact(string userId, int listingId)
@@ -45,6 +60,13 @@ namespace ShackUp.UI.Controllers
             }
         }
 
+        /*FAVORITES*/
+        /// <summary>
+        /// Add a favorite listing to account
+        /// </summary>
+        /// <param name="userId">string for the user id of account</param>
+        /// <param name="listingId">int for the listing id</param>
+        /// <returns>IHttpActionResult 200 OK for successful creation, 400 Bad Request if failed</returns>
         [Route("api/favorite/add/{userId}/{listingId}")]
         [AcceptVerbs("POST")]
         public IHttpActionResult AddFavorites(string userId, int listingId)
@@ -62,6 +84,12 @@ namespace ShackUp.UI.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove a favorite listing from account
+        /// </summary>
+        /// <param name="userId">string for the user id of account</param>
+        /// <param name="listingId">int for the listing id</param>
+        /// <returns>IHttpActionResult 200 OK for successful deletion, 400 Bad Request if failed</returns>
         [Route("api/favorite/remove/{userId}/{listingId}")]
         [AcceptVerbs("DELETE")]
         public IHttpActionResult RemoveFavorite(string userId, int listingId)
