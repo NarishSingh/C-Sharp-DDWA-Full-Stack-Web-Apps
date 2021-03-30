@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using NUnit.Framework;
 using ShackUp.Data.ADO;
+using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
 using ShackUp.Models.Db;
 using ShackUp.Models.Queried;
@@ -355,6 +356,56 @@ namespace ShackUp.Tests
 
             found = repo.IsFavorite(userId, 10);
             Assert.IsFalse(found);
+        }
+
+        [Test]
+        public void CanSearchOnMinRate()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {MinRate = 110M});
+
+            Assert.AreEqual(5, found.Count());
+        }
+
+        [Test]
+        public void CanSearchOnMaxRate()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {MaxRate = 110M});
+
+            Assert.AreEqual(2, found.Count());
+        }
+
+        [Test]
+        public void CanSearchInRangeOfRate()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+
+            IEnumerable<ListingShortItem> found = repo.Search(
+                new ListingSearchParameters
+                {
+                    MinRate = 100M,
+                    MaxRate = 120M
+                }
+            );
+
+            Assert.AreEqual(3, found.Count());
+        }
+
+        [Test]
+        public void CanSearchOnCity()
+        {
+            IListingRepo repo = new ListingsRepoADO();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {City = "Col"});
+
+            Assert.AreEqual(1, found.Count());
+
+            found = repo.Search(new ListingSearchParameters {City = "Cle"});
+
+            Assert.AreEqual(5, found.Count());
         }
     }
 }
