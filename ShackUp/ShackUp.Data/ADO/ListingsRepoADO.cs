@@ -240,19 +240,72 @@ namespace ShackUp.Data.ADO
 
         public IEnumerable<ListingShortItem> Search(ListingSearchParameters param)
         {
-            throw new NotImplementedException();
-            /*
             List<ListingShortItem> listings = new List<ListingShortItem>();
 
             using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
                 SqlCommand cmd = new SqlCommand
                 {
-                    Connection = c,
-                    CommandText = "",
+                    Connection = c
+                };
+                
+                //when doing a dynamic query, you want a dummy WHERE clause to allow for AND lines to be appended on without hurting syntax
+                //1=1 always evaluates to true -> has no effect on the filtering taking place
+                string query = "SELECT TOP 12 ListingId, UserId, StateId, City, Rate, ImageFileName FROM Listings WHERE 1 = 1";
+
+                //optional parameters
+                if (param.MinRate.HasValue)
+                {
+                    query += "AND RATE >= @MinRate ";
+                    cmd.Parameters.AddWithValue("@MinRate", param.MinRate.Value);
+                }
+
+                if (param.MaxRate.HasValue)
+                {
+                    query += "AND RATE <= @MaxRate ";
+                    cmd.Parameters.AddWithValue("@MaxRate", param.MaxRate.Value);
+                }
+
+                //
+                if (!string.IsNullOrEmpty(param.City))
+                {
+                    query += "AND City LIKE @City ";
+                    cmd.Parameters.AddWithValue("@City", param.City + '%');
+                }
+                
+                if (!string.IsNullOrEmpty(param.StateId))
+                {
+                    query += "AND StateId = @StateId ";
+                    cmd.Parameters.AddWithValue("@StateId", param.StateId);
+                }
+
+                query += "ORDER BY CreatedDate DESC";
+                
+                cmd.CommandText = query;
+                
+                c.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    ListingShortItem row = new ListingShortItem
+                    {
+                        ListingId = (int) dr["ListingId"],
+                        UserId = dr["UserID"].ToString(),
+                        StateId = dr["StateId"].ToString(),
+                        City = dr["City"].ToString(),
+                        Rate = (decimal) dr["Rate"]
+                    };
+
+                    if (dr["ImageFileName"] != DBNull.Value)
+                    {
+                        row.ImageFileName = dr["ImageFileName"].ToString();
+                    }
+                    
+                    listings.Add(row);
                 }
             }
-            */
+
+            return listings;
         }
     }
 }
