@@ -145,6 +145,14 @@ namespace ShackUp.UI.Controllers
             }
         }
         
+        /// <summary>
+        /// Search listings and return top 12 results
+        /// </summary>
+        /// <param name="minRate">nullable decimal for the minimum rate</param>
+        /// <param name="maxRate">nullable decimal for the maximum rate</param>
+        /// <param name="city">string for the city</param>
+        /// <param name="stateId">string for the state id</param>
+        /// <returns></returns>
         [Route("api/listings/search")]
         [AcceptVerbs("GET")]
         public IHttpActionResult Search(decimal? minRate, decimal? maxRate, string city, string stateId)

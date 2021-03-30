@@ -21,5 +21,13 @@ namespace ShackUp.UI.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            IStatesRepo repo = StatesRepositoryFactory.GetRepository();
+
+            return View(repo.ReadAllStates());
+        }
     }
 }

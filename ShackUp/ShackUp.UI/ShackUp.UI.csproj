@@ -348,6 +348,7 @@
         <Content Include="Views\Account\VerifyCode.cshtml" />
         <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
         <Content Include="Views\Listings\Details.cshtml" />
+        <Content Include="Views\Listings\Index.cshtml" />
         <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
         <Content Include="Views\Manage\ChangePassword.cshtml" />
         <Content Include="Views\Manage\Index.cshtml" />
