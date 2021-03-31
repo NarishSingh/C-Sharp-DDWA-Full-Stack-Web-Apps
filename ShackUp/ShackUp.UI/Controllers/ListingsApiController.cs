@@ -152,7 +152,7 @@ namespace ShackUp.UI.Controllers
         /// <param name="maxRate">nullable decimal for the maximum rate</param>
         /// <param name="city">string for the city</param>
         /// <param name="stateId">string for the state id</param>
-        /// <returns></returns>
+        /// <returns>IHttpActionResult 200 OK for successful query, 400 Bad Request if failed</returns>
         [Route("api/listings/search")]
         [AcceptVerbs("GET")]
         public IHttpActionResult Search(decimal? minRate, decimal? maxRate, string city, string stateId)

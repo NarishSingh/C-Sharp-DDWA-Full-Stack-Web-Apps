@@ -80,11 +80,9 @@
                         
                         $('#searchResults').append(html.toString());
                     });
-                    
-                    
                 },
-                error: function() {
-                    alert('Error performing search, try again later');
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + " | " + thrownError);
                 }
             });
         }
