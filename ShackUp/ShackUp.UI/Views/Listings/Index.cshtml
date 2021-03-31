@@ -29,6 +29,7 @@
             </div>
             <div class="form-group">
                 <label for="state">State</label>
+                @* new SelectList creates and populates SelectListItems for us*@
                 @Html.DropDownList("state", new SelectList(Model, "StateId", "StateName"),
                     "Any", new {@class = "form-control"})
             </div>

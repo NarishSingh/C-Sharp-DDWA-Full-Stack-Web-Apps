@@ -197,6 +197,7 @@
         <Compile Include="Models\Identity\AppRole.cs" />
         <Compile Include="Models\Identity\AppUser.cs" />
         <Compile Include="Models\Identity\ShackUpDbContext.cs" />
+        <Compile Include="Models\ListingAddViewModel.cs" />
         <Compile Include="Models\ManageViewModel.cs" />
         <Compile Include="Models\UpdateAccountViewModel.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -347,6 +348,7 @@
         <Content Include="Views\Account\SendCode.cshtml" />
         <Content Include="Views\Account\VerifyCode.cshtml" />
         <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+        <Content Include="Views\Listings\Add.cshtml" />
         <Content Include="Views\Listings\Details.cshtml" />
         <Content Include="Views\Listings\Index.cshtml" />
         <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
