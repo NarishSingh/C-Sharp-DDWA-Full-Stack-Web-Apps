@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.IO;
+using System.Web.Mvc;
 using ShackUp.Data.ADO;
 using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
@@ -48,6 +50,67 @@ namespace ShackUp.UI.Controllers
             };
 
             return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Add(ListingAddViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IListingRepo repo = ListingRepositoryFactory.GetRepository();
+
+                try
+                {
+                    model.Listing.UserId = AuthorizeUtilities.GetUserId(this);
+
+                    if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
+                    {
+                        string savePath = Server.MapPath("~/Images");
+
+                        string fileName = Path.GetFileNameWithoutExtension(model.ImageUpload.FileName);
+                        string extension = Path.GetExtension(model.ImageUpload.FileName);
+
+                        string filePath = Path.Combine(savePath, fileName + extension);
+
+                        int counter = 1;
+                        while (System.IO.File.Exists(filePath))
+                        {
+                            filePath = Path.Combine(savePath, fileName + counter.ToString() + extension);
+                            counter++;
+                        }
+
+                        model.ImageUpload.SaveAs(filePath);
+                        model.Listing.ImageFileName = Path.GetFileName(filePath);
+                    }
+
+                    repo.CreateListing(model.Listing);
+
+                    return RedirectToAction("Edit", "Listings", new {id = model.Listing.ListingId});
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+            else
+            {
+                IStatesRepo statesRepo = StatesRepositoryFactory.GetRepository();
+                IBathroomTypesRepo broomRepo = BathroomTypesRepositoryFactory.GetRepository();
+
+                model.States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId");
+                model.BathroomTypes =
+                    new SelectList(broomRepo.ReadAllBathroomTypes(), "BathroomTypeId", "BathroomTypeName");
+
+                return View(model);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            throw new NotImplementedException();
         }
     }
 }
