@@ -187,8 +187,8 @@ namespace ShackUp.UI.Controllers
             }
             else
             {
-                var statesRepo = StatesRepositoryFactory.GetRepository();
-                var bathroomRepo = BathroomTypesRepositoryFactory.GetRepository();
+                IStatesRepo statesRepo = StatesRepositoryFactory.GetRepository();
+                IBathroomTypesRepo bathroomRepo = BathroomTypesRepositoryFactory.GetRepository();
 
                 model.States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId");
                 model.BathroomTypes = new SelectList(bathroomRepo.ReadAllBathroomTypes(), "BathroomTypeId",
