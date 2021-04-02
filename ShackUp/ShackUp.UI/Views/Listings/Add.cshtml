@@ -9,7 +9,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4">
         <h2>Add Listing</h2>
 
-        @using (Html.BeginForm("Add", "Listings", FormMethod.Post, new {enctype = "multipart/form-data", id = "fromAddListing"}))
+        @using (Html.BeginForm("Add", "Listings", FormMethod.Post,
+            new {enctype = "multipart/form-data", id = "fromAddListing"}))
         {
             @Html.ValidationSummary()
 
@@ -23,7 +24,8 @@
             </div>
             <div class="form-group">
                 <label>State</label>
-                @Html.DropDownListFor(m => m.Listing.StateId, Model.States, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.Listing.StateId, Model.States,
+                    new {@class = "form-control"})
             </div>
             <div class="form-group">
                 <label>Rate</label>
@@ -41,7 +43,8 @@
             </div>
             <div class="form-group">
                 <label>Bathroom</label>
-                @Html.DropDownListFor(m => m.Listing.BathroomTypeId, Model.BathroomTypes, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.Listing.BathroomTypeId, Model.BathroomTypes,
+                    new {@class = "form-control"})
             </div>
             <div class="custom-file">
                 <input id="ImageUpload" name="ImageUpload" type="file" class="custom-file-input"/>
@@ -49,7 +52,8 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                @Html.TextAreaFor(m => m.Listing.ListingDescription, new {@class = "form-control"})
+                @Html.TextAreaFor(m => m.Listing.ListingDescription,
+                    new {@class = "form-control"})
             </div>
 
             <button class="btn btn-primary">Save</button>
