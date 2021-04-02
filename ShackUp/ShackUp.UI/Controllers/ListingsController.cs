@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Web.Mvc;
-using ShackUp.Data.ADO;
 using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
 using ShackUp.Models.Db;
@@ -66,13 +65,15 @@ namespace ShackUp.UI.Controllers
 
                     if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
                     {
-                        string savePath = Server.MapPath("~/Images");
+                        //build the file path string
+                        string savePath = Server.MapPath("~/Images"); //get the local path to images dir
 
                         string fileName = Path.GetFileNameWithoutExtension(model.ImageUpload.FileName);
                         string extension = Path.GetExtension(model.ImageUpload.FileName);
 
                         string filePath = Path.Combine(savePath, fileName + extension);
 
+                        //need to gurantee that file names are unique so we don't overwrite images in the db
                         int counter = 1;
                         while (System.IO.File.Exists(filePath))
                         {

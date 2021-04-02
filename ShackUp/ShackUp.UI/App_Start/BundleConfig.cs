@@ -8,9 +8,13 @@ namespace ShackUp.UI
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js",
-                "~/Scripts/jquery.validate*"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery")
+                .Include(
+                    "~/Scripts/jquery-{version}.js",
+                    "~/Scripts/jquery.validate*",
+                    "~/Scripts/app/validator-settings.js"
+                )
+            );
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
