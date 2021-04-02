@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Web.Mvc;
+using ShackUp.Data.ADO;
 using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
 using ShackUp.Models.Db;
@@ -109,9 +110,92 @@ namespace ShackUp.UI.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult Edit()
+        public ActionResult Edit(int id)
         {
-            throw new NotImplementedException();
+            IStatesRepo statesRepo = StatesRepositoryFactory.GetRepository();
+            IBathroomTypesRepo broomRepo = BathroomTypesRepositoryFactory.GetRepository();
+            IListingRepo listingRepo = ListingRepositoryFactory.GetRepository();
+
+            ListingEditViewModel model = new ListingEditViewModel
+            {
+                States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId"),
+                BathroomTypes = new SelectList(broomRepo.ReadAllBathroomTypes(), "BathroomTypeId", "BathroomTypeName"),
+                Listing = listingRepo.ReadListingById(id)
+            };
+
+            if (model.Listing.UserId != AuthorizeUtilities.GetUserId(this))
+            {
+                throw new Exception("Attempt to edit another user's listing denied");
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Edit(ListingEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IListingRepo repo = ListingRepositoryFactory.GetRepository();
+
+                try
+                {
+                    model.Listing.UserId = AuthorizeUtilities.GetUserId(this);
+                    Listing oldListing = repo.ReadListingById(model.Listing.ListingId);
+
+                    if (model.ImageUpload != null && model.ImageUpload.ContentLength > 0)
+                    {
+                        string savepath = Server.MapPath("~/Images");
+
+                        string fileName = Path.GetFileNameWithoutExtension(model.ImageUpload.FileName);
+                        string extension = Path.GetExtension(model.ImageUpload.FileName);
+
+                        string filePath = Path.Combine(savepath, fileName + extension);
+
+                        int counter = 1;
+                        while (System.IO.File.Exists(filePath))
+                        {
+                            filePath = Path.Combine(savepath, fileName + counter.ToString() + extension);
+                            counter++;
+                        }
+
+                        model.ImageUpload.SaveAs(filePath);
+                        model.Listing.ImageFileName = Path.GetFileName(filePath);
+
+                        // delete old file
+                        string oldPath = Path.Combine(savepath, oldListing.ImageFileName);
+                        if (System.IO.File.Exists(oldPath))
+                        {
+                            System.IO.File.Delete(oldPath);
+                        }
+                    }
+                    else
+                    {
+                        //if no replacement image, keep old file
+                        model.Listing.ImageFileName = oldListing.ImageFileName;
+                    }
+
+                    repo.UpdateListing(model.Listing);
+
+                    return RedirectToAction("Edit", "Listings", new {id = model.Listing.ListingId});
+                }
+                catch (Exception e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+            else
+            {
+                var statesRepo = StatesRepositoryFactory.GetRepository();
+                var bathroomRepo = BathroomTypesRepositoryFactory.GetRepository();
+
+                model.States = new SelectList(statesRepo.ReadAllStates(), "StateId", "StateId");
+                model.BathroomTypes = new SelectList(bathroomRepo.ReadAllBathroomTypes(), "BathroomTypeId",
+                    "BathroomTypeName");
+
+                return View(model);
+            }
         }
     }
 }
