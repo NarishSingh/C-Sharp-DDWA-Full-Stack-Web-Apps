@@ -24,7 +24,7 @@ namespace ShackUp.UI.Controllers
             private set { _userManager = value; }
         }
 
-        // GET: MyAccount
+        [HttpGet]
         public ActionResult Index()
         {
             string userId = AuthorizeUtilities.GetUserId(this);
@@ -34,6 +34,7 @@ namespace ShackUp.UI.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult Favorites()
         {
             string userId = AuthorizeUtilities.GetUserId(this);
@@ -42,7 +43,7 @@ namespace ShackUp.UI.Controllers
             IEnumerable<FavoriteItem> model = repo.ReadFavorites(userId);
             return View(model);
         }
-
+        
         [HttpPost]
         public ActionResult DeleteFavorite(int listingId)
         {
@@ -54,6 +55,7 @@ namespace ShackUp.UI.Controllers
             return RedirectToAction("Favorites");
         }
 
+        [HttpGet]
         public ActionResult Contacts()
         {
             string userId = AuthorizeUtilities.GetUserId(this);
@@ -63,6 +65,7 @@ namespace ShackUp.UI.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult UpdateAccount()
         {
             IStatesRepo statesRepo = StatesRepositoryFactory.GetRepository();
