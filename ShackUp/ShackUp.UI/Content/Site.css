@@ -23,6 +23,15 @@ textarea {
     max-width: 280px;
 }
 
-.recentListing{
+.recentListing {
     text-align: center;
+}
+
+.sidenav {
+    border: 1px solid black;
+    margin-top: 20px;
+}
+
+.sidenav ul {
+    list-style: none;
 }

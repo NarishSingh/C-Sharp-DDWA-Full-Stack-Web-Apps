@@ -61,7 +61,8 @@
                                 }
                             </td>
                             <td>@listing.BathroomTypeName</td>
-                            <td>@Html.ActionLink("edit", "Edit", "Listings", new { id = listing.ListingId }, null)</td>
+                            <td>@Html.ActionLink("edit", "Edit", "Listings", 
+                                    new { id = listing.ListingId }, null)</td>
                         </tr>
                     }
                 </tbody>
