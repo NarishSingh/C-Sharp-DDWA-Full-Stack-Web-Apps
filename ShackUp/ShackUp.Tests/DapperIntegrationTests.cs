@@ -44,5 +44,20 @@ namespace ShackUp.Tests
             Assert.AreEqual("OH", states[2].StateId);
             Assert.AreEqual("Ohio", states[2].StateName);
         }
+
+        [Test]
+        public void CanLoadAllBathroomTypes()
+        {
+            IBathroomTypesRepo repo = new BathroomTypesRepoDapper();
+            List<BathroomType> bRooms = repo.ReadAllBathroomTypes();
+
+            Assert.AreEqual(3, bRooms.Count);
+            Assert.AreEqual(1, bRooms[0].BathroomTypeId);
+            Assert.AreEqual("Indoor", bRooms[0].BathroomTypeName);
+            Assert.AreEqual(2, bRooms[1].BathroomTypeId);
+            Assert.AreEqual("Outdoor", bRooms[1].BathroomTypeName);
+            Assert.AreEqual(3, bRooms[2].BathroomTypeId);
+            Assert.AreEqual("None", bRooms[2].BathroomTypeName);
+        }
     }
 }
