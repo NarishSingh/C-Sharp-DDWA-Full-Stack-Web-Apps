@@ -1,9 +1,12 @@
-﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+﻿@if (Request.IsAuthenticated)
 {
     <li>
         @Html.ActionLink("My Account", "Index", "MyAccount", routeValues: null,
             htmlAttributes: new {id = "loginLink"})
+    </li>
+    <li>
+        @Html.ActionLink("Log Off", "LogOff", "Account", null,
+            new {id = "LogOffLink"})
     </li>
 }
 else
