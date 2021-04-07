@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using NUnit.Framework;
+using ShackUp.Data;
 using ShackUp.Data.ADO;
 using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
@@ -20,12 +21,8 @@ namespace ShackUp.Tests
         public void Init()
         {
             //reset db to a known state for each test
-            using (SqlConnection c = new SqlConnection())
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
-                c.ConnectionString = ConfigurationManager
-                    .ConnectionStrings["ShackUp"]
-                    .ConnectionString;
-
                 SqlCommand cmd = new SqlCommand
                 {
                     Connection = c,
