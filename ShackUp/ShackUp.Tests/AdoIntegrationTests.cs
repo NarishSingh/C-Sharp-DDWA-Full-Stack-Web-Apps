@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using NUnit.Framework;
 using ShackUp.Data;
 using ShackUp.Data.ADO;
-using ShackUp.Data.Factories;
 using ShackUp.Data.Interfaces;
 using ShackUp.Models.Db;
 using ShackUp.Models.Queried;
