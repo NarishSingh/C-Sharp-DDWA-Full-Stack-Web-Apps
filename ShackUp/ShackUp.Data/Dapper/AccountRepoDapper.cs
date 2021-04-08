@@ -59,7 +59,14 @@ namespace ShackUp.Data.Dapper
 
         public IEnumerable<ListingItem> ReadListings(string userId)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@UserId", userId);
+
+                return c.Query<ListingItem>("ListingsSelectByUser", param,
+                    commandType: CommandType.StoredProcedure);
+            }
         }
 
         public void DeleteFavorite(string userId, int listingId)

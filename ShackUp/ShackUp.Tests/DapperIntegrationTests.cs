@@ -391,5 +391,26 @@ namespace ShackUp.Tests
 
             Assert.AreEqual(2, contacts.Count);
         }
+
+        [Test]
+        public void CanReadListingsForUser()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+            List<ListingItem> listings = repo.ReadListings("00000000-0000-0000-0000-000000000000").ToList();
+
+            Assert.AreEqual(6, listings.Count);
+
+            Assert.AreEqual(1, listings[0].ListingId);
+            Assert.AreEqual("OH", listings[0].StateId);
+            Assert.AreEqual(3, listings[0].BathroomTypeId);
+            Assert.AreEqual("Test shack 1", listings[0].Nickname);
+            Assert.AreEqual("Cleveland", listings[0].City);
+            Assert.AreEqual(100M, listings[0].Rate);
+            Assert.AreEqual(400M, listings[0].SquareFootage);
+            Assert.AreEqual(false, listings[0].HasElectric);
+            Assert.AreEqual(true, listings[0].HasHeat);
+            Assert.AreEqual("placeholder.jpg", listings[0].ImageFileName);
+            Assert.AreEqual("None", listings[0].BathroomTypeName);
+        }
     }
 }
