@@ -356,5 +356,40 @@ namespace ShackUp.Tests
 
             Assert.AreEqual(6, top12.Count());
         }
+
+        [Test]
+        public void CanCreateDeleteFavorites()
+        {
+            const string user = "11111111-1111-1111-1111-111111111111";
+            IAccountRepo repo = new AccountRepoDapper();
+
+            repo.CreateFavorite(user, 3);
+            List<FavoriteItem> faves = repo.ReadFavorites(user).ToList();
+
+            Assert.AreEqual(3, faves.Count);
+
+            repo.DeleteFavorite(user, 2);
+            faves = repo.ReadFavorites(user).ToList();
+
+            Assert.AreEqual(2, faves.Count);
+        }
+
+        [Test]
+        public void CanCreateDeleteContacts()
+        {
+            const string contactId = "11111111-1111-1111-1111-111111111111";
+            const string user = "00000000-0000-0000-0000-000000000000";
+            IAccountRepo repo = new AccountRepoDapper();
+
+            repo.CreateContact(contactId, 5);
+            List<ContactRequestItem> contacts = repo.ReadContacts(user).ToList();
+
+            Assert.AreEqual(3, contacts.Count);
+
+            repo.DeleteContact(contactId, 3);
+            contacts = repo.ReadContacts(user).ToList();
+
+            Assert.AreEqual(2, contacts.Count);
+        }
     }
 }
