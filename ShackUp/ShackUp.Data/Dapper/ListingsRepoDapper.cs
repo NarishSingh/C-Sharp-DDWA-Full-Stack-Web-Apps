@@ -147,7 +147,6 @@ namespace ShackUp.Data.Dapper
                 query += "ORDER BY CreatedDate DESC";
 
                 return c.Query<ListingShortItem>(query, param, commandType: CommandType.Text);
-                //TODO write tests
             }
         }
     }

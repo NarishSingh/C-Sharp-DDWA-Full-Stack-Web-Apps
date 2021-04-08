@@ -233,5 +233,128 @@ namespace ShackUp.Tests
 
             Assert.IsNull(loaded);
         }
+
+        [Test]
+        public void CanSearchOnMinRate()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {MinRate = 110M});
+
+            Assert.AreEqual(5, found.Count());
+        }
+
+        [Test]
+        public void CanSearchOnMaxRate()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {MaxRate = 110M});
+
+            Assert.AreEqual(2, found.Count());
+        }
+
+        [Test]
+        public void CanSearchInRangeOfRate()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(
+                new ListingSearchParameters
+                {
+                    MinRate = 100M,
+                    MaxRate = 120M
+                }
+            );
+
+            Assert.AreEqual(3, found.Count());
+        }
+
+        [Test]
+        public void SearchRateFail()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(
+                new ListingSearchParameters
+                {
+                    MinRate = Decimal.MaxValue
+                }
+            );
+
+            Assert.AreEqual(0, found.Count());
+        }
+
+        [Test]
+        public void CanSearchOnCity()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {City = "Col"});
+
+            Assert.AreEqual(1, found.Count());
+
+            found = repo.Search(new ListingSearchParameters {City = "Cle"});
+
+            Assert.AreEqual(5, found.Count());
+        }
+
+        [Test]
+        public void SearchCityFail()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> foundNone = repo.Search(new ListingSearchParameters {City = "The Moon"});
+            
+            Assert.AreEqual(0, foundNone.Count());
+        }
+
+        [Test]
+        public void CanSearchStateId()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {StateId = "OH"});
+            
+            Assert.AreEqual(6, found.Count());
+        }
+
+        [Test]
+        public void SearchFailCity()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> foundNone = repo.Search(new ListingSearchParameters {StateId = "XX"});
+            
+            Assert.AreEqual(0, foundNone.Count());
+        }
+
+        [Test]
+        public void CanSearchAllOptionalParams()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> found = repo.Search(
+                new ListingSearchParameters
+                {
+                    MinRate = 100M,
+                    MaxRate = 120M,
+                    City = "Cleveland",
+                    StateId = "OH"
+                }
+            );
+
+            Assert.AreEqual(3, found.Count());
+        }
+
+        [Test]
+        public void CanSearchNoOptionalParams()
+        {
+            IListingRepo repo = new ListingsRepoDapper();
+
+            IEnumerable<ListingShortItem> top12 = repo.Search(new ListingSearchParameters());
+
+            Assert.AreEqual(6, top12.Count());
+        }
     }
 }
