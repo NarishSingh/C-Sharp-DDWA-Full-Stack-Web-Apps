@@ -109,44 +109,43 @@ namespace ShackUp.Data.Dapper
             }
         }
 
-        public IEnumerable<ListingShortItem> Search(ListingSearchParameters param)
+        public IEnumerable<ListingShortItem> Search(ListingSearchParameters searchParams)
         {
             using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
             {
-                DynamicParameters sqlParam = new DynamicParameters();
+                DynamicParameters dynamicParameters = new DynamicParameters();
 
                 string query =
-                    "SELECT TOP 12 ListingId, UserId, StateId, City, Rate, ImageFileName FROM Listings WHERE 1 = 1";
+                    "SELECT TOP 12 ListingId, UserId, StateId, City, Rate, ImageFileName FROM Listings WHERE 1 = 1 ";
 
                 //optional parameters
-                if (param.MinRate.HasValue)
+                if (searchParams.MinRate.HasValue)
                 {
                     query += "AND RATE >= @MinRate ";
-                    sqlParam.Add("@MinRate", param.MinRate.Value);
+                    dynamicParameters.Add("@MinRate", searchParams.MinRate.Value);
                 }
 
-                if (param.MaxRate.HasValue)
+                if (searchParams.MaxRate.HasValue)
                 {
                     query += "AND RATE <= @MaxRate ";
-                    sqlParam.Add("@MaxRate", param.MaxRate.Value);
+                    dynamicParameters.Add("@MaxRate", searchParams.MaxRate.Value);
                 }
 
-                //% allows the search function to match similar enough strings, good for search
-                if (!string.IsNullOrEmpty(param.City))
+                if (!string.IsNullOrEmpty(searchParams.City))
                 {
                     query += "AND City LIKE @City ";
-                    sqlParam.Add("@City", param.City + '%');
+                    dynamicParameters.Add("@City", $"{searchParams.City}%", DbType.String, ParameterDirection.Input);
                 }
 
-                if (!string.IsNullOrEmpty(param.StateId))
+                if (!string.IsNullOrEmpty(searchParams.StateId))
                 {
                     query += "AND StateId = @StateId ";
-                    sqlParam.Add("@StateId", param.StateId);
+                    dynamicParameters.Add("@StateId", searchParams.StateId);
                 }
 
                 query += "ORDER BY CreatedDate DESC";
 
-                return c.Query<ListingShortItem>(query, param, commandType: CommandType.Text);
+                return c.Query<ListingShortItem>(query, dynamicParameters, commandType: CommandType.Text);
             }
         }
     }

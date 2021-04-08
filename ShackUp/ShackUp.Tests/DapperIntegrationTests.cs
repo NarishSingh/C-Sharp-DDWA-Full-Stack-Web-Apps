@@ -305,7 +305,7 @@ namespace ShackUp.Tests
             IListingRepo repo = new ListingsRepoDapper();
 
             IEnumerable<ListingShortItem> foundNone = repo.Search(new ListingSearchParameters {City = "The Moon"});
-            
+
             Assert.AreEqual(0, foundNone.Count());
         }
 
@@ -315,7 +315,7 @@ namespace ShackUp.Tests
             IListingRepo repo = new ListingsRepoDapper();
 
             IEnumerable<ListingShortItem> found = repo.Search(new ListingSearchParameters {StateId = "OH"});
-            
+
             Assert.AreEqual(6, found.Count());
         }
 
@@ -325,7 +325,7 @@ namespace ShackUp.Tests
             IListingRepo repo = new ListingsRepoDapper();
 
             IEnumerable<ListingShortItem> foundNone = repo.Search(new ListingSearchParameters {StateId = "XX"});
-            
+
             Assert.AreEqual(0, foundNone.Count());
         }
 

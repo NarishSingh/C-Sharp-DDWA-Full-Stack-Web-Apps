@@ -49,8 +49,8 @@ namespace ShackUp.Data.Interfaces
         /// <summary>
         /// Search for a listing
         /// </summary>
-        /// <param name="param">ListingSearchParameters viewmodel</param>
+        /// <param name="searchParams">ListingSearchParameters viewmodel</param>
         /// <returns>IEnumerable of ListingShortItem viewmodels</returns>
-        IEnumerable<ListingShortItem> Search(ListingSearchParameters param);
+        IEnumerable<ListingShortItem> Search(ListingSearchParameters searchParams);
     }
 }

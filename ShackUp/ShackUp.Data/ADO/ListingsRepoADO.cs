@@ -238,7 +238,7 @@ namespace ShackUp.Data.ADO
             }
         }
 
-        public IEnumerable<ListingShortItem> Search(ListingSearchParameters param)
+        public IEnumerable<ListingShortItem> Search(ListingSearchParameters searchParams)
         {
             List<ListingShortItem> listings = new List<ListingShortItem>();
 
@@ -253,32 +253,32 @@ namespace ShackUp.Data.ADO
                 //when doing a dynamic query, you want a dummy WHERE clause to allow for AND lines to be appended on without hurting syntax
                 //1=1 always evaluates to true -> has no effect on the filtering taking place
                 string query =
-                    "SELECT TOP 12 ListingId, UserId, StateId, City, Rate, ImageFileName FROM Listings WHERE 1 = 1";
+                    "SELECT TOP 12 ListingId, UserId, StateId, City, Rate, ImageFileName FROM Listings WHERE 1 = 1 ";
 
                 //optional parameters
-                if (param.MinRate.HasValue)
+                if (searchParams.MinRate.HasValue)
                 {
                     query += "AND RATE >= @MinRate ";
-                    cmd.Parameters.AddWithValue("@MinRate", param.MinRate.Value);
+                    cmd.Parameters.AddWithValue("@MinRate", searchParams.MinRate.Value);
                 }
 
-                if (param.MaxRate.HasValue)
+                if (searchParams.MaxRate.HasValue)
                 {
                     query += "AND RATE <= @MaxRate ";
-                    cmd.Parameters.AddWithValue("@MaxRate", param.MaxRate.Value);
+                    cmd.Parameters.AddWithValue("@MaxRate", searchParams.MaxRate.Value);
                 }
 
                 //% allows the search function to match similar enough strings, good for search
-                if (!string.IsNullOrEmpty(param.City))
+                if (!string.IsNullOrEmpty(searchParams.City))
                 {
                     query += "AND City LIKE @City ";
-                    cmd.Parameters.AddWithValue("@City", param.City + '%');
+                    cmd.Parameters.AddWithValue("@City", searchParams.City + '%');
                 }
 
-                if (!string.IsNullOrEmpty(param.StateId))
+                if (!string.IsNullOrEmpty(searchParams.StateId))
                 {
                     query += "AND StateId = @StateId ";
-                    cmd.Parameters.AddWithValue("@StateId", param.StateId);
+                    cmd.Parameters.AddWithValue("@StateId", searchParams.StateId);
                 }
 
                 query += "ORDER BY CreatedDate DESC";
