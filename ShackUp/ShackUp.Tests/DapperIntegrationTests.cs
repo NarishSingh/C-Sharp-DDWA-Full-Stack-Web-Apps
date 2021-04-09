@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using NUnit.Framework;
 using ShackUp.Data;
@@ -411,6 +412,70 @@ namespace ShackUp.Tests
             Assert.AreEqual(true, listings[0].HasHeat);
             Assert.AreEqual("placeholder.jpg", listings[0].ImageFileName);
             Assert.AreEqual("None", listings[0].BathroomTypeName);
+        }
+
+        [Test]
+        public void ListingIsFavorite()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+            string userId = "11111111-1111-1111-1111-111111111111";
+
+            bool found = repo.IsFavorite(userId, 2);
+            Assert.IsTrue(found);
+
+            found = repo.IsFavorite(userId, 10);
+            Assert.IsFalse(found);
+        }
+
+        [Test]
+        public void ListingIsNotFavorite()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+            string userId = "11111111-1111-1111-1111-111111111111";
+
+            bool notFound = repo.IsFavorite(userId, Int32.MaxValue);
+            Assert.IsFalse(notFound);
+        }
+
+        [Test]
+        public void UserHasNotFavoritedListing()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+
+            bool notFound = repo.IsFavorite("X", 1);
+            Assert.IsFalse(notFound);
+        }
+        
+        [Test]
+        public void UserIsContact()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+            string userId = "11111111-1111-1111-1111-111111111111";
+
+            bool found = repo.IsContact(userId, 1);
+            Assert.IsTrue(found);
+
+            found = repo.IsContact(userId, 10);
+            Assert.IsFalse(found);
+        }
+
+        [Test]
+        public void UserIsNotContact()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+
+            bool notFound = repo.IsContact("", 1);
+            Assert.IsFalse(notFound);
+        }
+
+        [Test]
+        public void UserNotContactForListing()
+        {
+            IAccountRepo repo = new AccountRepoDapper();
+            string userId = "11111111-1111-1111-1111-111111111111";
+
+            bool notFound = repo.IsContact(userId, 2);
+            Assert.IsFalse(notFound);
         }
     }
 }

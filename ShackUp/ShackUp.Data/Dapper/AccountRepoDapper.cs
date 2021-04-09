@@ -95,12 +95,28 @@ namespace ShackUp.Data.Dapper
 
         public bool IsContact(string userId, int listingId)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@UserId", userId);
+                param.Add("@ListingId", listingId);
+
+                return c.QueryFirstOrDefault<ContactRequestItem>("ContactsSelect", param,
+                    commandType: CommandType.StoredProcedure) != null;
+            }
         }
 
         public bool IsFavorite(string userId, int listingId)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection c = new SqlConnection(Settings.GetConnString()))
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("@UserId", userId);
+                param.Add("@ListingId", listingId);
+
+                return c.QueryFirstOrDefault<FavoriteItem>("FavoritesSelect", param,
+                    commandType: CommandType.StoredProcedure) != null;
+            }
         }
     }
 }
