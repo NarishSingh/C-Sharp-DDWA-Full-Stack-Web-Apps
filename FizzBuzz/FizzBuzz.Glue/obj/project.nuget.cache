@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "1rLTb8D8EKpctZQtdB60Dvlu6oJTs+fctXuMUPs5i1FAa9DRrGJIb+w8BeAIFnsyR+hhomtjPUnml5dx/IZ7iw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\naris\\Documents\\Work\\TECHHIRE\\REPOSITORY\\C-Sharp-DDWA-Full-Stack-Web-Apps\\FizzBuzz\\FizzBuzz.Glue\\FizzBuzz.Glue.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\naris\\.nuget\\packages\\fsharp.core\\6.0.2\\fsharp.core.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

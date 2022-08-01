@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FizzBuzz.Glue", "FizzBuzz.Glue\FizzBuzz.Glue.fsproj", "{2D5E6A10-BD81-41A9-AFAD-7D4AAD3F02A9}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FizzBuzz.Data", "FizzBuzz.Data\FizzBuzz.Data.fsproj", "{5761A569-E1E5-47BA-B733-6F04F1943F6B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D5E6A10-BD81-41A9-AFAD-7D4AAD3F02A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5E6A10-BD81-41A9-AFAD-7D4AAD3F02A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5E6A10-BD81-41A9-AFAD-7D4AAD3F02A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5E6A10-BD81-41A9-AFAD-7D4AAD3F02A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5761A569-E1E5-47BA-B733-6F04F1943F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5761A569-E1E5-47BA-B733-6F04F1943F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5761A569-E1E5-47BA-B733-6F04F1943F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5761A569-E1E5-47BA-B733-6F04F1943F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

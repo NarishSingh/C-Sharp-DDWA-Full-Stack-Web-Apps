@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "MMCDbE9r9mxmRT+rSZZl0YbcPhUBqfjuU1ftbEYnnAXWlDQM6LU87hEXDnj1PxGLDymengFFHQgR/zqw+Gfs8Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\naris\\Documents\\Work\\TECHHIRE\\REPOSITORY\\C-Sharp-DDWA-Full-Stack-Web-Apps\\FizzBuzz\\FizzBuzz.Data\\FizzBuzz.Data.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\naris\\.nuget\\packages\\fsharp.core\\6.0.2\\fsharp.core.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
