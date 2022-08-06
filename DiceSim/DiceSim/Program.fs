@@ -33,7 +33,10 @@ match Int32.TryParse input with
 
                     // sequence expressions - very much like list comprehensions in python
                     let rolls: int list =
-                        [ for _ in 1..numRolls -> rollDice numDice ] // todo try this with List.indexed and unwrap tuple
+                        [ for _ in 1..numRolls -> rollDice numDice ]
+
+                    let rollsIdx: (int * int) list =
+                        rolls |> List.indexed
 
                     match List.isEmpty rolls with
                     | true -> printfn "List empty, average = 0"
@@ -55,15 +58,20 @@ match Int32.TryParse input with
 
                         printfn $"Mode is %i{fst modeRoll}, rolled %i{snd modeRoll} times"
 
-                        rolls |> List.min |> printfn "Lowest roll = %i" // min
+                        // min
+                        let worst: int * int = rollsIdx |> List.min //todo fixme this is taking 1st idx, need lowest roll
+                        printfn $"Worst roll = %i{snd worst} on roll %i{fst worst}"
 
                         // median
                         let sortArr: int [] =
                             rolls |> Seq.toArray |> Array.sort
+
                         printfn $"Median = %i{sortArr[sortArr.Length / 2]}"
                         // printfn $"Sorted Rolls: %A{sortArr}"
 
-                        rolls |> List.max |> printfn "Highest roll = %i" // max
+                        // max
+                        let best: int * int = rollsIdx |> List.max //todo fixme this is taking max idx, need highest roll
+                        printfn $"Best roll = %i{snd best} on roll %i{fst best}"
 
                         printfn $"Your Rolls: %A{rolls}"
     | 2 -> // Lucky 7's
