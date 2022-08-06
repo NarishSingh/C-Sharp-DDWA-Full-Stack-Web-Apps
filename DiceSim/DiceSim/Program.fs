@@ -46,23 +46,19 @@ match Int32.TryParse input with
                         |> printfn "Average of rolls = %f"
 
                         // mode
-                        rolls
-                        |> Seq.countBy id
-                        |> Seq.sortByDescending id
-                        |> Seq.truncate 1
-                        |> Seq.item 0
-                        |> printfn "Mode = %i"
-                        
-                        // min
-                        rolls
-                        |> List.min
-                        |> printfn "Lowest roll = %i"
-                        
-                        // max
-                        rolls
-                        |> List.max
-                        |> printfn "Highest roll = %i"
-                        
+                        let modeRoll: int * int =
+                            rolls
+                            |> Seq.countBy id // group items to tuple (roll, count)
+                            |> Seq.sortByDescending id // sort high to low
+                            |> Seq.truncate 1 // get the first (highest count)
+                            |> Seq.item 0 // get the item from sequence
+
+                        printfn $"Mode is %i{fst modeRoll}, rolled %i{snd modeRoll} times"
+
+                        rolls |> List.min |> printfn "Lowest roll = %i"
+
+                        rolls |> List.max |> printfn "Highest roll = %i"
+
                         printfn $"Your Rolls: %A{rolls}"
     | 2 -> // Lucky 7's
         ()
