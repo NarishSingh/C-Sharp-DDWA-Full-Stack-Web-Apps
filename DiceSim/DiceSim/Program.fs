@@ -41,25 +41,27 @@ match Int32.TryParse input with
                     match List.isEmpty rolls with
                     | true -> printfn "List empty, average = 0"
                     | false ->
-                        // note: `List.average` doesn't work for int,
+                        // `List.average` doesn't work for int as it uses float, not integer, division internally
                         // use `List.averageBy` to allow for a delegate to cast to float
                         // use the inner expression `float` which is the same as `(fun r -> float r)`
                         rolls
                         |> List.averageBy float
-                        |> printfn "Average of rolls = %f"
+                        |> printfn "Average of rolls = %.4f"
 
                         // mode
                         let modeRoll: int * int =
                             rolls
-                            |> Seq.countBy id // group items to tuple (roll, count)
-                            |> Seq.sortByDescending id // sort high to low
-                            |> Seq.truncate 1 // get the first (highest count)
-                            |> Seq.item 0 // get the item from sequence
+                            |> Seq.countBy id // groups items to tuple (roll, count)
+                            |> Seq.sortByDescending id
+                            |> Seq.truncate 1 // take first (will be highest count)
+                            |> Seq.item 0 // unbox item from sequence
 
                         printfn $"Mode is %i{fst modeRoll}, rolled %i{snd modeRoll} times"
 
                         // min
-                        let worst: int * int = rollsIdx |> List.min //todo fixme this is taking 1st idx, need lowest roll
+                        let worst: int * int =
+                            rollsIdx |> List.minBy snd
+
                         printfn $"Worst roll = %i{snd worst} on roll %i{fst worst}"
 
                         // median
@@ -70,7 +72,9 @@ match Int32.TryParse input with
                         // printfn $"Sorted Rolls: %A{sortArr}"
 
                         // max
-                        let best: int * int = rollsIdx |> List.max //todo fixme this is taking max idx, need highest roll
+                        let best: int * int =
+                            rollsIdx |> List.maxBy snd
+
                         printfn $"Best roll = %i{snd best} on roll %i{fst best}"
 
                         printfn $"Your Rolls: %A{rolls}"
