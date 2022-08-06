@@ -55,9 +55,15 @@ match Int32.TryParse input with
 
                         printfn $"Mode is %i{fst modeRoll}, rolled %i{snd modeRoll} times"
 
-                        rolls |> List.min |> printfn "Lowest roll = %i"
+                        rolls |> List.min |> printfn "Lowest roll = %i" // min
 
-                        rolls |> List.max |> printfn "Highest roll = %i"
+                        // median
+                        let sortArr: int [] =
+                            rolls |> Seq.toArray |> Array.sort
+                        printfn $"Median = %i{sortArr[sortArr.Length / 2]}"
+                        // printfn $"Sorted Rolls: %A{sortArr}"
+
+                        rolls |> List.max |> printfn "Highest roll = %i" // max
 
                         printfn $"Your Rolls: %A{rolls}"
     | 2 -> // Lucky 7's
