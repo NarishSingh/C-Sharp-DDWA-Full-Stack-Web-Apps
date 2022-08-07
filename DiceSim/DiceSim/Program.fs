@@ -1,5 +1,9 @@
 ﻿open System
 
+let rng: Random = Random()
+let rollDice (diceCt: int) : int = rng.Next(diceCt, (diceCt * 6) + 1)
+
+
 printfn "===DICE SIM==="
 printfn "1 | Stats"
 printfn "2 | Lucky 7's"
@@ -29,9 +33,6 @@ match Int32.TryParse input with
                 match numRolls > 0 with
                 | false -> failwith "Invalid number of rolls..."
                 | true ->
-                    let rng: Random = Random()
-                    let rollDice (diceCt: int) : int = rng.Next(diceCt, (diceCt * 6) + 1)
-
                     // sequence expressions - very much like list comprehensions in python
                     let rolls: int list =
                         [ for _ in 1..numRolls -> rollDice numDice ]
@@ -80,15 +81,17 @@ match Int32.TryParse input with
 
                         printfn $"Your Rolls: %A{rolls}"
     | 2 -> // Lucky 7's
+        let maxBuyIn: decimal = 100m
+        
         printfn "*** Lucky 7's Sim ***"
-        printf "Enter buy in amount (up to $1000.00): $"
+        printf $"Enter buy in amount (up to %.2f{maxBuyIn}): $"
         let buyInStr: string = Console.ReadLine()
         
         match Decimal.TryParse buyInStr with
         | false, _ -> failwith $"%s{buyInStr} could not be parsed to a monetary value..."
         | true, buyIn ->
-            match buyIn > 0m && buyIn <= 1000m with
-            | false -> failwith $"%s{buyIn} is not a valid amount..."
+            match buyIn > 0m && buyIn <= 100m with
+            | false -> failwith $"%.2f{buyIn} is not a valid amount..."
             | true ->
                 printf "Enter bet amount - wins are doubled: $"
                 let betStr: string = Console.ReadLine()
@@ -99,9 +102,17 @@ match Int32.TryParse input with
                     match bet > 0m && bet < buyIn with
                     | false -> failwith "Invalid bet amount..."
                     | true ->
+                        let mutable pot: decimal = buyIn
+                        let mutable round: int = 0
+                        while pot > 0m do
+                            round <- round + 1
+                            
+                            let roll: int = rollDice 2
+                            match roll with
+                            | 7 -> pot <- pot + (bet * 2m)
+                            | _ -> pot <- pot - bet
+                            //printfn $"Rolled %i{roll} | $%.2f{pot}"
                         
-
-            
-        
+                        printfn $"You went broke after %i{round} rounds"
     | _ -> failwith "Not a valid module to run..."
     
