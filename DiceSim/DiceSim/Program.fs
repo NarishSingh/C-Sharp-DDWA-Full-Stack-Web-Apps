@@ -12,6 +12,7 @@ match Int32.TryParse input with
 | true, num ->
     match num with
     | 1 -> // Stats
+        printfn "*** Dice Stats ***"
         printf "Please number of dice to roll: "
         let diceInput: string = Console.ReadLine()
 
@@ -79,5 +80,28 @@ match Int32.TryParse input with
 
                         printfn $"Your Rolls: %A{rolls}"
     | 2 -> // Lucky 7's
-        ()
+        printfn "*** Lucky 7's Sim ***"
+        printf "Enter buy in amount (up to $1000.00): $"
+        let buyInStr: string = Console.ReadLine()
+        
+        match Decimal.TryParse buyInStr with
+        | false, _ -> failwith $"%s{buyInStr} could not be parsed to a monetary value..."
+        | true, buyIn ->
+            match buyIn > 0m && buyIn <= 1000m with
+            | false -> failwith $"%s{buyIn} is not a valid amount..."
+            | true ->
+                printf "Enter bet amount - wins are doubled: $"
+                let betStr: string = Console.ReadLine()
+                
+                match Decimal.TryParse betStr with
+                | false, _ -> failwith $"%s{betStr} could not be parsed to a monetary value..."
+                | true, bet ->
+                    match bet > 0m && bet < buyIn with
+                    | false -> failwith "Invalid bet amount..."
+                    | true ->
+                        
+
+            
+        
     | _ -> failwith "Not a valid module to run..."
+    
